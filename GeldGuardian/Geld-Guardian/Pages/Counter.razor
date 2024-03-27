@@ -1,10 +1,13 @@
 ﻿@page "/counter"
 
-<h1>Counter</h1>
+<h1>Live Update - no reload</h1>
+
+<p>This page can show you how to use razor code to update content live.</p>
 
 <p>Current count: @currentCount</p>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" @onclick="IncrementCount">Add</button>
+<button class="btn btn-primary" @onclick="DecreaseCount">Substract</button>
 
 @code {
     private int currentCount = 0;
@@ -12,5 +15,11 @@
     private void IncrementCount()
     {
         currentCount++;
+    }
+
+    private void DecreaseCount()
+    {
+        if(currentCount > 0)
+            currentCount--;
     }
 }
