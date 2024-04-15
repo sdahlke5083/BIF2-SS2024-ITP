@@ -5,7 +5,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 89%;
+    height: 100%;
     background-image: url("../../pics/pinkWaterEdit.png");
     filter: blur(5px);
     z-index: -1;
@@ -86,5 +86,11 @@
 
 .input-confirm-pwd{
     color: palevioletred !important;
+}
+
+/*Footer*/
+.container-footer{
+    background-color: white;
+    
 }
 
