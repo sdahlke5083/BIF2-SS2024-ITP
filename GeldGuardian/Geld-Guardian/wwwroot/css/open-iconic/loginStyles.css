@@ -1,0 +1,90 @@
+﻿/* CSS-Stil für den Login-Container */
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 89%;
+    background-image: url("../../pics/pinkWaterEdit.png");
+    filter: blur(5px);
+    z-index: -1;
+}
+
+.login-container {
+    padding: 20px;
+    background-color: #F9BEC7 !important;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    text-align: center;
+    border-radius: 10px;
+    max-width: 60%;
+    position: relative;
+    z-index: 1; 
+}
+
+.login-container .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+
+.login-container a {
+    color: #590d22;
+    font-size: 16px;
+}
+
+.login-container h1 {
+    color: #d81159;
+}
+
+
+.form-floating {
+   margin-bottom: 15px; 
+}
+
+.form-floating input[type="text"]{
+    width: 100%;
+}
+
+
+#login-submit {
+    margin-bottom: 10px;
+    background-color: #ff006e;
+    border-color: #ff0a54;
+    color: white;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+#login-submit:hover {
+     background-color: #ff5c8a;
+ }
+
+#register-submit {
+    margin-bottom: 10px;
+    background-color: #ff006e;
+    border-color: #ff0a54;
+    color: white;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+    #register-submit:hover {
+        background-color: #ff5c8a;
+    }
+
+.form-label{
+    color: palevioletred !important;
+}
+
+.input-email {
+    color: palevioletred !important;
+}
+
+.input-pwd {
+    color: palevioletred !important;
+}
+
+.input-confirm-pwd{
+    color: palevioletred !important;
+}
+

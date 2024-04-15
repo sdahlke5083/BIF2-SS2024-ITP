@@ -1,0 +1,41 @@
+# depslib dependency file v1.0
+1712087085 source:c:\users\dase\mydrive\documents\fh\semester 2\algodat\programm1\stockhash\main.c
+	<stdio.h>
+	<stdlib.h>
+	"hash_table.h"
+	"import_data.h"
+	"menu.h"
+
+1712089875 c:\users\dase\mydrive\documents\fh\semester 2\algodat\programm1\stockhash\include\hash_table.h
+
+1712088601 c:\users\dase\mydrive\documents\fh\semester 2\algodat\programm1\stockhash\include\import_data.h
+	<stdio.h>
+	<string.h>
+	"hash_table.h"
+
+1712086998 source:c:\users\dase\mydrive\documents\fh\semester 2\algodat\programm1\stockhash\src\import_data.c
+	"import_data.h"
+
+1712088826 source:c:\users\dase\mydrive\documents\fh\semester 2\algodat\programm1\stockhash\src\hash_table.c
+	"hash_table.h"
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+
+1712089514 c:\users\dase\mydrive\documents\fh\semester 2\algodat\programm1\stockhash\include\menu.h
+	<stdio.h>
+	<io.h>
+	"hash_table.h"
+	"import_data.h"
+
+1712086998 source:c:\users\dase\mydrive\documents\fh\semester 2\algodat\programm1\stockhash\src\menu.c
+	"menu.h"
+	<stdio.h>
+
+1712087569 source:c:\users\dase\mydrive\documents\fh\semester 2\algodat\programm1\stockhash\src\save_load.c
+	"save_load.h"
+
+1712086998 c:\users\dase\mydrive\documents\fh\semester 2\algodat\programm1\stockhash\include\save_load.h
+	<stdio.h>
+	"hash_table.h"
+

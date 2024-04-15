@@ -12,6 +12,9 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/Identity/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/Identity/css/site.css" />
+        <link rel="stylesheet" href="~/css/open-iconic/loginStyles.css" />
+        <link rel="stylesheet" href="~/Identity/css/styleTemplet.css" />
+
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
@@ -19,6 +22,10 @@
               asp-fallback-href="~/Identity/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/Identity/css/site.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/open-iconic/loginStyles.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/Identity/css/styleTemplet.css" asp-append-version="true" />
+
+
     </environment>
 </head>
 <body>
@@ -49,7 +56,7 @@
         </nav>
     </header>
 
-    <div class="container">
+    <div class="container-back">
         <partial name="_CookieConsentPartial" optional />
         <main role="main" class="pb-1">
             @RenderBody()
