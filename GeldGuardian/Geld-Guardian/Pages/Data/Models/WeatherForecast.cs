@@ -1,6 +1,6 @@
 using System;
 
-namespace Geld_Guardian.Data
+namespace Geld_Guardian.Data.Models
 {
     public class WeatherForecast
     {
