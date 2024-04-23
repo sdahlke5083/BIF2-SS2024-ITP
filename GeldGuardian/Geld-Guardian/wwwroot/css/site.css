@@ -130,7 +130,6 @@ app {
 }
 
 
-
 /*Login Seite*/
 
 .w-100.btn.btn-lg.btn-primary {
@@ -165,3 +164,37 @@ app {
     color: #590D22;
     font-size: 27px;
 }
+
+/*BudgetOverview*/
+.budget-container th{
+    background-color: #f78d9d;
+}
+
+.budget-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    max-width: 800px;  
+}
+
+.budget-container th {
+    color: #590D22;
+}
+
+.budget-container th,
+.budget-container td {
+    padding: 10px;
+    border: 2px solid #f78d9d;
+}
+
+.budget-container tr:nth-child(even) {
+    background-color: #fae0e4;
+}
+
+textarea {
+    width: 800px;
+    padding: 10px;
+}
+
