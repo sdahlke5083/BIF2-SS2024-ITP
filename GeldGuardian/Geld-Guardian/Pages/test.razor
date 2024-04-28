@@ -1,0 +1,9 @@
+﻿<h3>Versuch Chatgpt einzubinden</h3>
+
+@code {
+    using Azure.AI.OpenAI;
+
+    OpenAIClient client = new OpenAIClient("insert-API-key");
+
+    var openAiResponse = await client.GetCompletionsAsync();
+}
