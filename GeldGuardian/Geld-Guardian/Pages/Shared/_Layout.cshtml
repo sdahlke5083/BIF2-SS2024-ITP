@@ -23,8 +23,6 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/Identity/css/site.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/open-iconic/loginStyles.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/Identity/css/styleTemplet.css" asp-append-version="true" />
-
 
     </environment>
 </head>
@@ -79,6 +77,8 @@
         <script src="~/Identity/lib/jquery/dist/jquery.js"></script>
         <script src="~/Identity/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
         <script src="~/Identity/js/site.js" asp-append-version="true"></script>
+        <link rel="stylesheet" href="~/css/open-iconic/font/css/open-iconic-bootstrap.min.css" asp-append-version="true" />
+
     </environment>
     <environment exclude="Development">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
@@ -93,7 +93,7 @@
                 crossorigin="anonymous"
                 integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj">
         </script>
-        <script src="~/Identity/js/site.js" asp-append-version="true"></script>
+
     </environment>
 
     @await RenderSectionAsync("Scripts", required: false)

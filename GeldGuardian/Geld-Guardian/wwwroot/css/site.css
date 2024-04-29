@@ -130,7 +130,6 @@ app {
 }
 
 
-
 /*Login Seite*/
 
 .w-100.btn.btn-lg.btn-primary {
@@ -139,3 +138,62 @@ app {
 .w-100 {
     background-color: deeppink !important;
 }
+
+/*Impressum*/
+.team-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+.team-member {
+    text-align: center;
+    font-size: 16px;
+}
+
+.team-member img {
+    max-width: 200px;
+    max-height: 250px;
+    margin-bottom: 10px;
+    padding-right: 20px;
+    object-fit: cover;
+}
+
+.impressum-inhalt h2 {
+    color: #590D22;
+    font-size: 27px;
+}
+
+/*BudgetOverview*/
+.budget-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    max-width: 800px; 
+    margin: 0 auto;
+}
+
+.budget-container th {
+    background-color: #f78d9d;
+    border: 2px solid #f26f83;
+    color: #590D22;
+    padding: 10px;
+}
+
+.budget-container td {
+    padding: 10px;
+    border: 2px solid #f78d9d;
+}
+
+.budget-container tr:nth-child(even) {
+    background-color: #fae0e4;
+}
+
+textarea {
+    width: 800px;
+    padding: 10px;
+}
+
