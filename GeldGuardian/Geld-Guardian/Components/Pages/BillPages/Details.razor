@@ -1,0 +1,57 @@
+﻿@page "/bills/details"
+@inject Geld_Guardian.Data.ApplicationDbContext DB
+@using Geld_Guardian.Pages.Data.Models
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h4>Bill</h4>
+    <hr />
+    @if (bill is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">StoreName</dt>
+            <dd class="col-sm-10">@bill.StoreName</dd>
+            <dt class="col-sm-2">BillingNumber</dt>
+            <dd class="col-sm-10">@bill.BillingNumber</dd>
+            <dt class="col-sm-2">BillDate</dt>
+            <dd class="col-sm-10">@bill.BillDate</dd>
+            <dt class="col-sm-2">DueDate</dt>
+            <dd class="col-sm-10">@bill.DueDate</dd>
+            <dt class="col-sm-2">Status</dt>
+            <dd class="col-sm-10">@bill.Status</dd>
+            <dt class="col-sm-2">Category</dt>
+            <dd class="col-sm-10">@bill.Category</dd>
+            <dt class="col-sm-2">PaymentMethod</dt>
+            <dd class="col-sm-10">@bill.PaymentMethod</dd>
+        </dl>
+        <div>
+            <a href="@($"/bills/edit?billid={bill.BillId}")">Edit</a> |
+            <a href="@($"/bills")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    Bill? bill;
+
+    [SupplyParameterFromQuery]
+    public int BillId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        bill = await DB.Bills.FirstOrDefaultAsync(m => m.BillId == BillId);
+
+        if (bill is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}
