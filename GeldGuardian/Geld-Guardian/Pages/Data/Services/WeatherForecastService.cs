@@ -1,8 +1,9 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Geld_Guardian.Data.Models;
 
-namespace Geld_Guardian.Data
+namespace Geld_Guardian.Data.Services
 {
     public class WeatherForecastService
     {

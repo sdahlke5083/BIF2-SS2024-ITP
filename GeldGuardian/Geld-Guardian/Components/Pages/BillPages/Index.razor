@@ -1,0 +1,28 @@
+﻿@page "/bills"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject Geld_Guardian.Data.ApplicationDbContext DB
+@using Geld_Guardian.Pages.Data.Models
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="bills/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="DB.Bills">
+    <PropertyColumn Property="bill => bill.StoreName" />
+    <PropertyColumn Property="bill => bill.BillingNumber" />
+    <PropertyColumn Property="bill => bill.BillDate" />
+    <PropertyColumn Property="bill => bill.DueDate" />
+    <PropertyColumn Property="bill => bill.Status" />
+    <PropertyColumn Property="bill => bill.Category" />
+    <PropertyColumn Property="bill => bill.PaymentMethod" />
+
+    <TemplateColumn Context="bill">
+        <a href="@($"bills/edit?billid={bill.BillId}")">Edit</a> |
+        <a href="@($"bills/details?billid={bill.BillId}")">Details</a> |
+        <a href="@($"bills/delete?billid={bill.BillId}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
