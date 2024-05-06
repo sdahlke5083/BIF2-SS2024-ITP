@@ -7,36 +7,42 @@
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Live Feedback
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> MVC Demo
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="EinnahmenAusgaben">
-                <span class="oi oi-list" aria-hidden="true"></span> Einnahmen/Ausgaben
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="BudgetOverview">
-                <span class="oi oi-list" aria-hidden="true"></span> Budget Overview
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="impressum">
-                <span class="oi oi-book" aria-hidden="true"></span> Impressum
-            </NavLink>
-        </li>
+        <AuthorizeView>
+            <NotAuthorized>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                        <span class="oi oi-home" aria-hidden="true"></span> Home
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="counter">
+                        <span class="oi oi-plus" aria-hidden="true"></span> Live Feedback
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="fetchdata">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> MVC Demo
+                    </NavLink>
+                </li>
+            </NotAuthorized>
+            <Authorized>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="EinnahmenAusgaben">
+                        <span class="oi oi-list" aria-hidden="true"></span> Einnahmen/Ausgaben
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="BudgetOverview">
+                        <span class="oi oi-list" aria-hidden="true"></span> Budget Overview
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="impressum">
+                        <span class="oi oi-book" aria-hidden="true"></span> Impressum
+                    </NavLink>
+                </li>
+            </Authorized>
+        </AuthorizeView>
     </ul>
 </div>
 
