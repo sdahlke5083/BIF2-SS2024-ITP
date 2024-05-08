@@ -5,10 +5,11 @@ html, body {
 }
 
 
-.btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+.btn-primary:hover {
+    background-color: #ff006e;
+    border-color: #ff0a54;
+    color: white;
+    transition: background-color 0.2s, color 0.2s;
 }
 
 
@@ -26,6 +27,7 @@ app {
 
 .main {
     flex: 1;
+    
 }
 
     .main .top-row {

@@ -49,7 +49,14 @@
                 color: white;
             }
 
+.main .top-row{
+    z-index: 1 !important;
+}
+
+
 a, .btn-link {
     color: #591326 !important;
 }
 
+
+/*Ennahmen/Ausgaben Formular*/
