@@ -59,4 +59,53 @@ a, .btn-link {
 }
 
 
-/*Ennahmen/Ausgaben Formular*/
+#main-btn {
+    margin-bottom: 10px;
+    background-color: #ff006e;
+    border-color: #ff0a54;
+    color: white;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+    #main-btn:hover {
+        background-color: #ff5c8a;
+    }
+
+#input-label {
+    color: #b54e5d;
+}
+
+.row .form-control {
+    border-color: #f0d3d7 !important;
+}
+
+/*Dropdown*/
+#input-option {
+    background-color: pink;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+    #input-option:hover {
+        background-color: #ff5c8a !important;
+    }
+
+/*Kalender*/
+.datetimebox{
+    background-color: deeppink !important;
+}
+
+.datetime-input-box-wrapper{
+    background-color: deeppink;
+}
+
+.datetime-input-edit-wrapper{
+    background-color: deeppink;
+}
+
+.datetime-edit-field{
+    background-color: deeppink;
+}
+
+.datetime-calendar-button{
+    background-color: deeppink;
+}

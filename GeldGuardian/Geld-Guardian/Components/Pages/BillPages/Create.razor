@@ -15,41 +15,46 @@
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" />
             <div class="form-floating mb-3">
-                <label for="storename" class="form-label">StoreName:</label> 
+                <label for="storename" class="form-label" id="input-label">StoreName:</label> 
                 <InputText id="storename" @bind-Value="Bill.StoreName" class="form-control" /> 
                 <ValidationMessage For="() => Bill.StoreName" class="text-danger" /> 
             </div>        
             <div class="form-floating mb-3">
-                <label for="billingnumber" class="form-label">BillingNumber:</label> 
+                <label for="billingnumber" class="form-label" id="input-label">BillingNumber:</label>
                 <InputText id="billingnumber" @bind-Value="Bill.BillingNumber" class="form-control" /> 
                 <ValidationMessage For="() => Bill.BillingNumber" class="text-danger" /> 
             </div>        
             <div class="form-floating mb-3">
-                <label for="billdate" class="form-label">BillDate:</label> 
+                <label for="billdate" class="form-label" id="input-label">BillDate:</label>
                 <InputDate id="billdate" @bind-Value="Bill.BillDate" class="form-control" /> 
                 <ValidationMessage For="() => Bill.BillDate" class="text-danger" /> 
             </div>        
             <div class="form-floating mb-3">
-                <label for="duedate" class="form-label">DueDate:</label> 
+                <label for="duedate" class="form-label" id="input-label">DueDate:</label>
                 <InputDate id="duedate" @bind-Value="Bill.DueDate" class="form-control" /> 
                 <ValidationMessage For="() => Bill.DueDate" class="text-danger" /> 
             </div>        
             <div class="form-floating mb-3">
-                <label for="status" class="form-label">Status:</label> 
+                <label for="status" class="form-label" id="input-label">Status:</label>
                 <InputText id="status" @bind-Value="Bill.Status" class="form-control" /> 
                 <ValidationMessage For="() => Bill.Status" class="text-danger" /> 
             </div>        
             <div class="form-floating mb-3">
-                <label for="category" class="form-label">Category:</label> 
-                <InputText id="category" @bind-Value="Bill.Category" class="form-control" /> 
+                <label for="category" class="form-label" id="input-label">Category:</label>
+                <InputSelect id="category" @bind-Value="Bill.Category" class="form-control">
+                    <option value=""> Select your Category</option>
+                    <option id="input-option" value="category1"> category 1</option>
+                    <option value="category2"> category 2</option>
+                    <option id="input-option" value="category3"> category 3</option>
+                </InputSelect>
                 <ValidationMessage For="() => Bill.Category" class="text-danger" /> 
             </div>        
             <div class="form-floating mb-3">
-                <label for="paymentmethod" class="form-label">PaymentMethod:</label> 
+                <label for="paymentmethod" class="form-label" id="input-label">PaymentMethod:</label> 
                 <InputText id="paymentmethod" @bind-Value="Bill.PaymentMethod" class="form-control" /> 
                 <ValidationMessage For="() => Bill.PaymentMethod" class="text-danger" /> 
             </div>        
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary" id="main-btn">Create</button>
         </EditForm>
     </div>
 </div>
