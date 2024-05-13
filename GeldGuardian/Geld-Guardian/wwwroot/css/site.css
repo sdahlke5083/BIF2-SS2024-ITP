@@ -160,34 +160,8 @@ app {
 }
 
 /*BudgetOverview*/
-.budget-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding-top: 20px;
-    padding-bottom: 40px;
-    max-width: 800px; 
-    margin: 0 auto;
-}
 
-.budget-container th {
+#infos-table {
     background-color: #f78d9d;
-    border: 2px solid #f26f83;
-    color: #590D22;
-    padding: 10px;
-}
-
-.budget-container td {
-    padding: 10px;
-    border: 2px solid #f78d9d;
-}
-
-.budget-container tr:nth-child(even) {
-    background-color: #fae0e4;
-}
-
-textarea {
-    width: 800px;
-    padding: 10px;
 }
 

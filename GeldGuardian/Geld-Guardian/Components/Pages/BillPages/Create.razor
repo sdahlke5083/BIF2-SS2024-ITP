@@ -6,7 +6,7 @@
 
 <PageTitle>Create</PageTitle>
 
-<h1>Einnamen-/Ausgabenerfassung</h1>
+<h1>Earnings/Expenses</h1>
 
 <hr />
 <div class="row">
@@ -42,10 +42,10 @@
             <div class="form-floating mb-3">
                 <label for="category" class="form-label" id="input-label">Category:</label>
                 <InputSelect id="category" @bind-Value="Bill.Category" class="form-control">
-                    <option value=""> Select your Category</option>
-                    <option id="input-option" value="category1"> category 1</option>
-                    <option value="category2"> category 2</option>
-                    <option id="input-option" value="category3"> category 3</option>
+                    <option value=""> Select a category</option>
+                    <option id="input-option" value="category1">groceries</option>
+                    <option value="category2"> gas</option>
+                    <option id="input-option" value="category3"> hobby</option>
                 </InputSelect>
                 <ValidationMessage For="() => Bill.Category" class="text-danger" /> 
             </div>        
