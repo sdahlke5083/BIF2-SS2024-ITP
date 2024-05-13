@@ -19,7 +19,8 @@ app {
 
 .main {
     flex: 1;
-    
+    max-width: 100% !important;
+    overflow-x: auto !important;
 }
 
     .main .top-row {
@@ -33,10 +34,10 @@ app {
             margin-left: 1.5rem;
         }
 
-.main .top-row a:first-child {
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+        .main .top-row a:first-child {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
 .content {
     padding-top: 1.1rem;
@@ -70,12 +71,12 @@ app {
     z-index: 1000;
 }
 
-#blazor-error-ui .dismiss {
-    cursor: pointer;
-    position: absolute;
-    right: 0.75rem;
-    top: 0.5rem;
-}
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
 
 @media (max-width: 767.98px) {
     .main .top-row:not(.auth) {
@@ -129,6 +130,7 @@ app {
 .w-100.btn.btn-lg.btn-primary {
     background-color: deeppink;
 }
+
 .w-100 {
     background-color: deeppink !important;
 }
@@ -146,13 +148,13 @@ app {
     font-size: 16px;
 }
 
-.team-member img {
-    max-width: 200px;
-    max-height: 250px;
-    margin-bottom: 10px;
-    padding-right: 20px;
-    object-fit: cover;
-}
+    .team-member img {
+        max-width: 200px;
+        max-height: 250px;
+        margin-bottom: 10px;
+        padding-right: 20px;
+        object-fit: cover;
+    }
 
 .impressum-inhalt h2 {
     color: #590D22;
@@ -161,13 +163,36 @@ app {
 
 /*BudgetOverview*/
 
+/* Standard-Styling für die Tabelle */
 #infos-table {
-    background-color: #F9BEC7;
+    background-color: #f78d9d !important;
+    overflow-x: auto !important;
 }
 
-/*Details*/
-
-.row .col-sm-10{
-    padding: 15px;
+/* Breite der Spalten anpassen */
+.table th, .table td {
+    white-space: nowrap !important;
 }
 
+/* Wenn die Bildschirmgröße kleiner als 768px ist */
+@media (max-width: 767.98px) {
+    /* Verstecke den Tabellenkopf, da er nicht mehr sinnvoll ist */
+    .table thead {
+        display: none !important;
+    }
+
+    /* Ändere das Layout der Tabelle auf Blockelemente, um das responsive Verhalten zu unterstützen */
+    .table tbody, .table tr, .table td {
+        display: block !important;
+    }
+
+        /* Füge Abstand zwischen den Tabellenzeilen hinzu */
+        .table tbody tr {
+            margin-bottom: 20px !important;
+        }
+
+    /* Stelle sicher, dass jede Zelle in der Tabelle die volle Breite des Bildschirms einnimmt */
+    .table td {
+        max-width: 100% !important;
+    }
+}
