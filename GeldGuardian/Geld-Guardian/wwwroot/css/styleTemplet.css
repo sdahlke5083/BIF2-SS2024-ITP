@@ -109,3 +109,39 @@ a, .btn-link {
 .datetime-calendar-button{
     background-color: deeppink;
 }
+
+/*Budget Overview*/
+.table-responsive {
+    max-width: 450px;
+    overflow-x: auto !important;
+}
+    .table-responsive thead {
+        background-color: #fca2af;
+        border: solid 5px;
+        border-color: white;
+    }
+    .table-responsive td {
+        background-color: #fcb6bf;
+        text-align: center;
+        vertical-align: middle;
+        padding-top: unset;
+        padding-bottom: unset;
+        border: solid 1px;
+        border-color: white;
+    }
+    .table-responsive tr {
+        border: solid 5px;
+        border-color: white;
+    }
+
+/*Homepage*/
+#about-us {
+    margin-left: 5%;
+    color: #590d22;
+}
+
+#about{
+    margin-left: 10%;
+    margin-right: 10%;
+    padding: 5px;
+}
