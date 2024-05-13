@@ -19,7 +19,8 @@ app {
 
 .main {
     flex: 1;
-    
+    max-width: 100% !important;
+    overflow-x: auto !important;
 }
 
     .main .top-row {
@@ -161,7 +162,40 @@ app {
 
 /*BudgetOverview*/
 
+/* Standard-Styling für die Tabelle */
 #infos-table {
-    background-color: #f78d9d;
+    background-color: #f78d9d !important;
+    overflow-x: auto !important;
 }
+
+/* Breite der Spalten anpassen */
+.table th, .table td {
+    white-space: nowrap !important;
+}
+
+/* Wenn die Bildschirmgröße kleiner als 768px ist */
+@media (max-width: 767.98px) {
+    /* Verstecke den Tabellenkopf, da er nicht mehr sinnvoll ist */
+    .table thead {
+        display: none !important;
+    }
+
+    /* Ändere das Layout der Tabelle auf Blockelemente, um das responsive Verhalten zu unterstützen */
+    .table tbody, .table tr, .table td {
+        display: block !important;
+    }
+
+        /* Füge Abstand zwischen den Tabellenzeilen hinzu */
+        .table tbody tr {
+            margin-bottom: 20px !important;
+        }
+
+    /* Stelle sicher, dass jede Zelle in der Tabelle die volle Breite des Bildschirms einnimmt */
+    .table td {
+        max-width: 100% !important;
+    }
+}
+
+
+
 

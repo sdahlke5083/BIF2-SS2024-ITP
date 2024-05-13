@@ -13,18 +13,42 @@
     <a href="bills/create">Create New</a>
 </p>
 
-<QuickGrid id="infos-table" Class="table" Items="DB.Bills">
-    <PropertyColumn Property="bill => bill.StoreName" />
-    <PropertyColumn Property="bill => bill.BillingNumber" />
-    <PropertyColumn Property="bill => bill.BillDate" />
-    <PropertyColumn Property="bill => bill.DueDate" />
-    <PropertyColumn Property="bill => bill.Status" />
-    <PropertyColumn Property="bill => bill.Category" />
-    <PropertyColumn Property="bill => bill.PaymentMethod" />
+<div style="overflow-x:auto;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Store Name</th>
+                <th>Billing Number</th>
+                <th>Bill Date</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Category</th>
+                <th>Payment Method</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bill in DB.Bills)
+            {
+                <tr>
+                    <td>@bill.StoreName</td>
+                    <td>@bill.BillingNumber</td>
+                    <td>@bill.BillDate</td>
+                    <td>@bill.DueDate</td>
+                    <td>@bill.Status</td>
+                    <td>@bill.Category</td>
+                    <td>@bill.PaymentMethod</td>
+                    <td>
+                        <a href="@($"bills/edit?billid={bill.BillId}")">Edit</a> |
+                        <a href="@($"bills/details?billid={bill.BillId}")">Details</a> |
+                        <a href="@($"bills/delete?billid={bill.BillId}")">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
-    <TemplateColumn Context="bill">
-        <a href="@($"bills/edit?billid={bill.BillId}")">Edit</a> |
-        <a href="@($"bills/details?billid={bill.BillId}")">Details</a> |
-        <a href="@($"bills/delete?billid={bill.BillId}")">Delete</a>
-    </TemplateColumn>
-</QuickGrid>
+@code {
+    // C# code can be added here if needed
+}
