@@ -3,16 +3,17 @@
 @using Microsoft.AspNetCore.Components.QuickGrid
 @inject Geld_Guardian.Data.ApplicationDbContext DB
 @using Geld_Guardian.Pages.Data.Models
+@inject NavigationManager NavigationManager
 
 <PageTitle>Index</PageTitle>
 
-<h1>Index</h1>
+<h1>BudgetOverview</h1>
 
 <p>
     <a href="bills/create">Create New</a>
 </p>
 
-<QuickGrid Class="table" Items="DB.Bills">
+<QuickGrid id="infos-table" Class="table" Items="DB.Bills">
     <PropertyColumn Property="bill => bill.StoreName" />
     <PropertyColumn Property="bill => bill.BillingNumber" />
     <PropertyColumn Property="bill => bill.BillDate" />
