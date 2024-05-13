@@ -162,6 +162,12 @@ app {
 /*BudgetOverview*/
 
 #infos-table {
-    background-color: #f78d9d;
+    background-color: #F9BEC7;
+}
+
+/*Details*/
+
+.row .col-sm-10{
+    padding: 15px;
 }
 
