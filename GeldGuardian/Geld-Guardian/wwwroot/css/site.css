@@ -5,18 +5,12 @@ html, body {
 }
 
 
-.btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
-}
-
-
 app {
     position: relative;
     display: flex;
     flex-direction: column;
 }
+
 
 .top-row {
     height: 3.5rem;
@@ -26,6 +20,7 @@ app {
 
 .main {
     flex: 1;
+    max-width: 100% !important;
 }
 
     .main .top-row {
@@ -39,10 +34,10 @@ app {
             margin-left: 1.5rem;
         }
 
-.main .top-row a:first-child {
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+        .main .top-row a:first-child {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
 .content {
     padding-top: 1.1rem;
@@ -76,12 +71,12 @@ app {
     z-index: 1000;
 }
 
-#blazor-error-ui .dismiss {
-    cursor: pointer;
-    position: absolute;
-    right: 0.75rem;
-    top: 0.5rem;
-}
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
 
 @media (max-width: 767.98px) {
     .main .top-row:not(.auth) {
@@ -135,6 +130,7 @@ app {
 .w-100.btn.btn-lg.btn-primary {
     background-color: deeppink;
 }
+
 .w-100 {
     background-color: deeppink !important;
 }
@@ -152,48 +148,17 @@ app {
     font-size: 16px;
 }
 
-.team-member img {
-    max-width: 200px;
-    max-height: 250px;
-    margin-bottom: 10px;
-    padding-right: 20px;
-    object-fit: cover;
-}
+    .team-member img {
+        max-width: 200px;
+        max-height: 250px;
+        margin-bottom: 10px;
+        padding-right: 20px;
+        object-fit: cover;
+    }
 
 .impressum-inhalt h2 {
     color: #590D22;
     font-size: 27px;
 }
 
-/*BudgetOverview*/
-.budget-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding-top: 20px;
-    padding-bottom: 40px;
-    max-width: 800px; 
-    margin: 0 auto;
-}
-
-.budget-container th {
-    background-color: #f78d9d;
-    border: 2px solid #f26f83;
-    color: #590D22;
-    padding: 10px;
-}
-
-.budget-container td {
-    padding: 10px;
-    border: 2px solid #f78d9d;
-}
-
-.budget-container tr:nth-child(even) {
-    background-color: #fae0e4;
-}
-
-textarea {
-    width: 800px;
-    padding: 10px;
-}
 

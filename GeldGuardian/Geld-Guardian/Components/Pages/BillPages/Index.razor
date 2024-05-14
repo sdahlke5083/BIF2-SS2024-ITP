@@ -4,17 +4,17 @@
 @inject Geld_Guardian.Data.ApplicationDbContext DB
 @inject AuthenticationStateProvider auth
 @using Geld_Guardian.Pages.Data.Models
+@inject NavigationManager NavigationManager
 
 <PageTitle>Index</PageTitle>
 
-<h1>Index</h1>
-
+<h1>BudgetOverview</h1>
+<hr />
 <p>
     <a href="bills/create">Create New</a>
 </p>
-
 <div class="table-responsive">
-    <QuickGrid Class="table" Items="DB.Bills.Where(m => m.UserId == this.getUser() )">
+    <QuickGrid id="infos-table" Class="table" Items="DB.Bills.Where(m => m.UserId == this.getUser() )">
         <PropertyColumn Property="bill => bill.StoreName" />
         <PropertyColumn Property="bill => bill.BillingNumber" />
         <PropertyColumn Property="bill => bill.BillDate" />
