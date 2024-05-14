@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.Build.Framework;
+using Microsoft.AspNetCore.Identity;
 
 namespace Geld_Guardian.Pages.Data.Models
 {
@@ -10,6 +11,7 @@ namespace Geld_Guardian.Pages.Data.Models
     public class Bill
     {
         public int BillId { get; set; }
+        public string? UserId { get; set; }
         public string StoreName { get; set; }
         public string BillingNumber { get; set; }
         public DateTime BillDate { get; set; }
@@ -20,5 +22,7 @@ namespace Geld_Guardian.Pages.Data.Models
 
         // Navigation property to access related BillItems
         public List<BillItem> BillItems { get; set; } = new List<BillItem>();
+        // Foreign key to access related User   
+        public IdentityUser User { get; set; }
     }
 }

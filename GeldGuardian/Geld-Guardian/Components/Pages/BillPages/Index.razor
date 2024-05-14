@@ -2,6 +2,7 @@
 @attribute [Authorize]
 @using Microsoft.AspNetCore.Components.QuickGrid
 @inject Geld_Guardian.Data.ApplicationDbContext DB
+@inject AuthenticationStateProvider auth
 @using Geld_Guardian.Pages.Data.Models
 @inject NavigationManager NavigationManager
 
@@ -13,7 +14,7 @@
     <a href="bills/create">Create New</a>
 </p>
 <div class="table-responsive">
-    <QuickGrid id="infos-table" Class="table" Items="DB.Bills">
+    <QuickGrid id="infos-table" Class="table" Items="DB.Bills.Where(m => m.UserId == this.getUser() )">
         <PropertyColumn Property="bill => bill.StoreName" />
         <PropertyColumn Property="bill => bill.BillingNumber" />
         <PropertyColumn Property="bill => bill.BillDate" />
@@ -23,9 +24,21 @@
         <PropertyColumn Property="bill => bill.PaymentMethod" />
 
         <TemplateColumn Context="bill">
-            <a href="@($"bills/edit?billid={bill.BillId}")">Edit</a> 
-            <a href="@($"bills/details?billid={bill.BillId}")">Details</a>
+            <a href="@($"bills/edit?billid={bill.BillId}")">Edit</a> |
+            <a href="@($"bills/details?billid={bill.BillId}")">Details</a> |
             <a href="@($"bills/delete?billid={bill.BillId}")">Delete</a>
         </TemplateColumn>
     </QuickGrid>
 </div>
+
+@code {
+    private string getUser()
+    {
+        var userPrincipal = auth.GetAuthenticationStateAsync().Result.User;
+        var userid = userPrincipal.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+        if (!string.IsNullOrEmpty(userid))
+            return userid;//await UserDbContext.Users.FirstOrDefaultAsync(u => u.Id == userid);
+        return null;
+    }
+
+}
