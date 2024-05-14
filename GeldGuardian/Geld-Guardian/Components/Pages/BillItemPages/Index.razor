@@ -1,0 +1,26 @@
+﻿@page "/billitems"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject Geld_Guardian.Data.ApplicationDbContext DB
+@using Geld_Guardian.Pages.Data.Models
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="billitems/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="DB.BillItems">
+    <PropertyColumn Property="billitem => billitem.BillId" />
+    <PropertyColumn Property="billitem => billitem.Description" />
+    <PropertyColumn Property="billitem => billitem.Category" />
+    <PropertyColumn Property="billitem => billitem.Quantity" />
+    <PropertyColumn Property="billitem => billitem.UnitPrice" />
+
+    <TemplateColumn Context="billitem">
+        <a href="@($"billitems/edit?billitemid={billitem.BillItemId}")">Edit</a> |
+        <a href="@($"billitems/details?billitemid={billitem.BillItemId}")">Details</a> |
+        <a href="@($"billitems/delete?billitemid={billitem.BillItemId}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
