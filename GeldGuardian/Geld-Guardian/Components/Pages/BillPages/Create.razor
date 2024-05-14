@@ -1,6 +1,7 @@
 ﻿@page "/bills/create"
 @attribute [Authorize]
 @inject Geld_Guardian.Data.ApplicationDbContext DB
+@inject AuthenticationStateProvider auth
 @using Geld_Guardian.Pages.Data.Models
 @inject NavigationManager NavigationManager
 
@@ -66,8 +67,18 @@
     // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
     public async Task AddBill()
     {
+        Bill.UserId = getUser();
         DB.Bills.Add(Bill);
         await DB.SaveChangesAsync();
         NavigationManager.NavigateTo("/bills");
+    }
+
+    private string getUser()
+    {
+        var userPrincipal = auth.GetAuthenticationStateAsync().Result.User;
+        var userid = userPrincipal.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+        if (!string.IsNullOrEmpty(userid))
+            return userid;//await UserDbContext.Users.FirstOrDefaultAsync(u => u.Id == userid);
+        return null;
     }
 }

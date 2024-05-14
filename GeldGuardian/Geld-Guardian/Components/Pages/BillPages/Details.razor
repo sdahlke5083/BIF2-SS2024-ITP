@@ -2,45 +2,72 @@
 @attribute [Authorize]
 @inject Geld_Guardian.Data.ApplicationDbContext DB
 @using Geld_Guardian.Pages.Data.Models
+@using Microsoft.AspNetCore.Components.QuickGrid
 @inject NavigationManager NavigationManager
 @using Microsoft.EntityFrameworkCore
 
 <PageTitle>Details</PageTitle>
 
-<h1>Details</h1>
-
-<div>
-    <h4>Bill</h4>
-    <hr />
-    @if (bill is null)
-    {
-        <p><em>Loading...</em></p>
-    }
-    else {
-        <dl class="row">
-            <dt class="col-sm-2">StoreName</dt>
-            <dd class="col-sm-10">@bill.StoreName</dd>
-            <dt class="col-sm-2">BillingNumber</dt>
-            <dd class="col-sm-10">@bill.BillingNumber</dd>
-            <dt class="col-sm-2">BillDate</dt>
-            <dd class="col-sm-10">@bill.BillDate</dd>
-            <dt class="col-sm-2">DueDate</dt>
-            <dd class="col-sm-10">@bill.DueDate</dd>
-            <dt class="col-sm-2">Status</dt>
-            <dd class="col-sm-10">@bill.Status</dd>
-            <dt class="col-sm-2">Category</dt>
-            <dd class="col-sm-10">@bill.Category</dd>
-            <dt class="col-sm-2">PaymentMethod</dt>
-            <dd class="col-sm-10">@bill.PaymentMethod</dd>
-        </dl>
-        <div>
-            <a href="@($"/bills/edit?billid={bill.BillId}")">Edit</a> |
-            <a href="@($"/bills")">Back to List</a>
-        </div>
-    }
+<div class="row">
+    <h1>Details</h1>
 </div>
 
+<div class="row">
+    <div class="col-4">
+        <h4>Bill</h4>
+        <hr />
+        @if (bill is null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else {
+            <dl class="row">
+                <dt class="col-sm-3">StoreName</dt>
+                <dd class="col-sm-9">@bill.StoreName</dd>
+                <dt class="col-sm-3">BillingNumber</dt>
+                <dd class="col-sm-9">@bill.BillingNumber</dd>
+                <dt class="col-sm-3">BillDate</dt>
+                <dd class="col-sm-9">@bill.BillDate</dd>
+                <dt class="col-sm-3">DueDate</dt>
+                <dd class="col-sm-9">@bill.DueDate</dd>
+                <dt class="col-sm-3">Status</dt>
+                <dd class="col-sm-9">@bill.Status</dd>
+                <dt class="col-sm-3">Category</dt>
+                <dd class="col-sm-9">@bill.Category</dd>
+                <dt class="col-sm-3">PaymentMethod</dt>
+                <dd class="col-sm-9">@bill.PaymentMethod</dd>
+            </dl>
+            <div>
+                <a href="@($"/bills/edit?billid={bill.BillId}")">Edit</a> |
+                <a href="@($"/bills")">Back to List</a>
+            </div>
+        }
+    </div>
+    <div class="col-4">
+        <h4>BillItems</h4>
+        <hr />
+        @if (bill.BillItems is null)
+        {
+            <p><em>No items.</em></p>
+        }
+        else {
+            <div class="table-responsive">
+
+                <QuickGrid Class="table" Items="DB.BillItems.Where(m => m.BillId == BillId)">
+                    <PropertyColumn Property="billitem => billitem.Description" />
+                    <PropertyColumn Property="billitem => billitem.Category" />
+                    <PropertyColumn Property="billitem => billitem.Quantity" />
+                    <PropertyColumn Property="billitem => billitem.UnitPrice" />
+                </QuickGrid>
+
+            </div>
+        }
+    </div>
+</div>
+
+
 @code {
+    #nullable enable
     Bill? bill;
 
     [SupplyParameterFromQuery]
@@ -54,5 +81,6 @@
         {
             NavigationManager.NavigateTo("notfound");
         }
+
     }
 }

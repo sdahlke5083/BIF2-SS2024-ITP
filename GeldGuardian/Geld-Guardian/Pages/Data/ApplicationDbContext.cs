@@ -1,4 +1,5 @@
 ﻿using Geld_Guardian.Pages.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +24,9 @@ namespace Geld_Guardian.Data
             modelBuilder.Entity<Bill>()
                 .Property(b => b.Status)
                 .HasDefaultValue("Paid");
+
+            modelBuilder.Entity<Bill>()
+                .HasOne(b => b.User);
 
             // Configure BillItem with explicit foreign key to Bill
             modelBuilder.Entity<BillItem>()
