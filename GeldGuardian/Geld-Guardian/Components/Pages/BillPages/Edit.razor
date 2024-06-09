@@ -45,17 +45,17 @@ else
                 </div>
                 <div class="mb-3">
                     <label for="status" class="form-label">Status:</label>
-                    <InputText id="status" @bind-Value="Bill.Status" class="form-control" />
+                    <InputText id="status" @bind-Value="Bill.Status.Name" class="form-control" />
                     <ValidationMessage For="() => Bill.Status" class="text-danger" />
                 </div>
                 <div class="mb-3">
                     <label for="category" class="form-label">Category:</label>
-                    <InputText id="category" @bind-Value="Bill.Category" class="form-control" />
+                    <InputText id="category" @bind-Value="Bill.Category.Name" class="form-control" />
                     <ValidationMessage For="() => Bill.Category" class="text-danger" />
                 </div>
                 <div class="mb-3">
                     <label for="paymentmethod" class="form-label">PaymentMethod:</label>
-                    <InputText id="paymentmethod" @bind-Value="Bill.PaymentMethod" class="form-control" />
+                    <InputText id="paymentmethod" @bind-Value="Bill.PaymentMethod.Name" class="form-control" />
                     <ValidationMessage For="() => Bill.PaymentMethod" class="text-danger" />
                 </div>
                 <button type="submit" class="btn btn-primary" id="main-btn">Save</button>

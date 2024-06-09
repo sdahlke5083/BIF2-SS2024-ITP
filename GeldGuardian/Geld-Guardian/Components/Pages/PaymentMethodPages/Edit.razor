@@ -1,0 +1,91 @@
+﻿@page "/PaymentMethods/edit"
+@inject Geld_Guardian.Data.ApplicationDbContext DB
+@using Geld_Guardian.Pages.Data.Models
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h4>PaymentMethod</h4>
+<hr />
+@if (PaymentMethod is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="PaymentMethod" OnValidSubmit="UpdatePaymentMethod" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <input type="hidden" name="PaymentMethod.Id" value="@PaymentMethod.PaymentId" />
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <InputText id="name" @bind-Value="PaymentMethod.Name" class="form-control" />
+                    <ValidationMessage For="() => PaymentMethod.Name" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description:</label>
+                    <InputText id="description" @bind-Value="PaymentMethod.Description" class="form-control" />
+                    <ValidationMessage For="() => PaymentMethod.Description" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/paymentmethods">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    public int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    public PaymentMethod? PaymentMethod { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        PaymentMethod ??= await DB.PaymentMethod.FirstOrDefaultAsync(m => m.PaymentId == Id);
+
+        if (PaymentMethod is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see https://aka.ms/RazorPagesCRUD.
+    public async Task UpdatePaymentMethod()
+    {
+        DB.Attach(PaymentMethod!).State = EntityState.Modified;
+
+        try
+        {
+            await DB.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!PaymentMethodExists(PaymentMethod!.PaymentId))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/paymentmethods");
+    }
+
+    bool PaymentMethodExists(int id)
+    {
+        return DB.PaymentMethod.Any(e => e.PaymentId == id);
+    }
+}

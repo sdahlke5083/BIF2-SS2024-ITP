@@ -3,6 +3,7 @@ using System;
 using Geld_Guardian.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Geld_Guardian.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240609202535_MoreBillModels")]
+    partial class MoreBillModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -29,23 +32,17 @@ namespace Geld_Guardian.Migrations
                     b.Property<string>("BillingNumber")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("CategoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(8);
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("PaymentMethodId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(1);
+                    b.Property<int?>("PaymentMethodId")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<int>("StatusId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(1);
+                    b.Property<int?>("StatusId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("StoreName")
                         .HasColumnType("TEXT");
@@ -75,10 +72,8 @@ namespace Geld_Guardian.Migrations
                     b.Property<int>("BillId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CategoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(8);
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
@@ -113,48 +108,6 @@ namespace Geld_Guardian.Migrations
                     b.HasKey("CategorieId");
 
                     b.ToTable("Categorie");
-
-                    b.HasData(
-                        new
-                        {
-                            CategorieId = 1,
-                            Name = "Groceries"
-                        },
-                        new
-                        {
-                            CategorieId = 2,
-                            Name = "Utilities"
-                        },
-                        new
-                        {
-                            CategorieId = 3,
-                            Name = "Rent"
-                        },
-                        new
-                        {
-                            CategorieId = 4,
-                            Name = "Transportation"
-                        },
-                        new
-                        {
-                            CategorieId = 5,
-                            Name = "Health"
-                        },
-                        new
-                        {
-                            CategorieId = 6,
-                            Name = "Entertainment"
-                        },
-                        new
-                        {
-                            CategorieId = 7,
-                            Name = "Education"
-                        },
-                        new
-                        {
-                            CategorieId = 8,
-                            Name = "Other"
-                        });
                 });
 
             modelBuilder.Entity("Geld_Guardian.Pages.Data.Models.PaymentMethod", b =>
@@ -172,38 +125,6 @@ namespace Geld_Guardian.Migrations
                     b.HasKey("PaymentId");
 
                     b.ToTable("PaymentMethod");
-
-                    b.HasData(
-                        new
-                        {
-                            PaymentId = 1,
-                            Name = "Cash"
-                        },
-                        new
-                        {
-                            PaymentId = 2,
-                            Name = "Credit Card"
-                        },
-                        new
-                        {
-                            PaymentId = 3,
-                            Name = "Debit Card"
-                        },
-                        new
-                        {
-                            PaymentId = 4,
-                            Name = "Bank Transfer"
-                        },
-                        new
-                        {
-                            PaymentId = 5,
-                            Name = "PayPal"
-                        },
-                        new
-                        {
-                            PaymentId = 6,
-                            Name = "Other"
-                        });
                 });
 
             modelBuilder.Entity("Geld_Guardian.Pages.Data.Models.PaymentStatus", b =>
@@ -218,23 +139,6 @@ namespace Geld_Guardian.Migrations
                     b.HasKey("StatusId");
 
                     b.ToTable("PaymentStatus");
-
-                    b.HasData(
-                        new
-                        {
-                            StatusId = 1,
-                            Name = "Pending"
-                        },
-                        new
-                        {
-                            StatusId = 2,
-                            Name = "Paid"
-                        },
-                        new
-                        {
-                            StatusId = 3,
-                            Name = "Overdue"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -437,21 +341,15 @@ namespace Geld_Guardian.Migrations
                 {
                     b.HasOne("Geld_Guardian.Pages.Data.Models.Categorie", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.HasOne("Geld_Guardian.Pages.Data.Models.PaymentMethod", "PaymentMethod")
                         .WithMany()
-                        .HasForeignKey("PaymentMethodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PaymentMethodId");
 
                     b.HasOne("Geld_Guardian.Pages.Data.Models.PaymentStatus", "Status")
                         .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StatusId");
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
@@ -476,9 +374,7 @@ namespace Geld_Guardian.Migrations
 
                     b.HasOne("Geld_Guardian.Pages.Data.Models.Categorie", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.Navigation("Bill");
 

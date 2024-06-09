@@ -36,15 +36,15 @@
         </dl>
         <dl class="row">
             <dt class="col-sm-2">Status</dt>
-            <dd class="col-sm-10">@bill.Status</dd>
+            <dd class="col-sm-10">@bill.Status.Name</dd>
         </dl>
         <dl class="row">
             <dt class="col-sm-2">Category</dt>
-            <dd class="col-sm-10">@bill.Category</dd>
+            <dd class="col-sm-10">@bill.Category.Name</dd>
         </dl>
         <dl class="row">
             <dt class="col-sm-2">PaymentMethod</dt>
-            <dd class="col-sm-10">@bill.PaymentMethod</dd>
+            <dd class="col-sm-10">@bill.PaymentMethod.Name</dd>
         </dl>
         <EditForm method="post" Model="bill" OnValidSubmit="DeleteBill" FormName="delete" Enhance>
             <button type="submit" class="btn btn-danger" disabled="@(bill is null)" id="main-btn">Delete</button> |

@@ -1,0 +1,23 @@
+﻿@page "/paymentmethods"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject Geld_Guardian.Data.ApplicationDbContext DB
+@using Geld_Guardian.Pages.Data.Models
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="paymentmethods/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="DB.PaymentMethod">
+    <PropertyColumn Property="paymentmethod => paymentmethod.Name" />
+    <PropertyColumn Property="paymentmethod => paymentmethod.Description" />
+
+    <TemplateColumn Context="paymentmethod">
+        <a href="@($"paymentmethods/edit?id={paymentmethod.PaymentId}")">Edit</a> |
+        <a href="@($"paymentmethods/details?id={paymentmethod.PaymentId}")">Details</a> |
+        <a href="@($"paymentmethods/delete?id={paymentmethod.PaymentId}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>

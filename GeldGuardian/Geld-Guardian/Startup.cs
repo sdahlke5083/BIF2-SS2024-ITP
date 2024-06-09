@@ -1,6 +1,5 @@
 using Geld_Guardian.Areas.Identity;
 using Geld_Guardian.Data;
-using Geld_Guardian.Data.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -36,7 +35,6 @@ namespace Geld_Guardian
             services.AddServerSideBlazor();
             services.AddQuickGridEntityFrameworkAdapter();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-            services.AddSingleton<WeatherForecastService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

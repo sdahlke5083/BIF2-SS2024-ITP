@@ -1,0 +1,57 @@
+﻿@page "/paymentmethods/delete"
+@inject Geld_Guardian.Data.ApplicationDbContext DB
+@using Geld_Guardian.Pages.Data.Models
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Delete</PageTitle>
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>PaymentMethod</h4>
+    <hr />
+    @if (paymentmethod is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Name</dt>
+            <dd class="col-sm-10">@paymentmethod.Name</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Description</dt>
+            <dd class="col-sm-10">@paymentmethod.Description</dd>
+        </dl>
+        <EditForm method="post" Model="paymentmethod" OnValidSubmit="DeletePaymentMethod" FormName="delete" Enhance>
+            <button type="submit" class="btn btn-danger" disabled="@(paymentmethod is null)">Delete</button> |
+            <a href="/paymentmethods">Back to List</a>
+        </EditForm>
+    }
+</div>
+
+@code {
+    PaymentMethod? paymentmethod;
+
+    [SupplyParameterFromQuery]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        paymentmethod = await DB.PaymentMethod.FirstOrDefaultAsync(m => m.PaymentId == Id);
+
+        if (paymentmethod is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    public async Task DeletePaymentMethod()
+    {
+        DB.PaymentMethod.Remove(paymentmethod!);
+        await DB.SaveChangesAsync();
+        NavigationManager.NavigateTo("/paymentmethods");
+    }
+}

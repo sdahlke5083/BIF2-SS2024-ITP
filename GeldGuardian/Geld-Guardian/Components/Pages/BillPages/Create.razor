@@ -37,7 +37,7 @@
             </div>        
             <div class="form-floating mb-3">
                 <label for="status" class="form-label" id="input-label">Status:</label>
-                <InputSelect id="status" @bind-Value="Bill.Status" class="form-control">
+                <InputSelect id="status" @bind-Value="Bill.Status.Name" class="form-control">
                     <option value="">------</option>
                     <option id="input-option" value="category1"> Paid</option>
                     <option value="category2"> Open</option>
@@ -47,7 +47,7 @@
             </div>        
             <div class="form-floating mb-3">
                 <label for="category" class="form-label" id="input-label">Category:</label>
-                <InputSelect id="category" @bind-Value="Bill.Category" class="form-control">
+                <InputSelect id="category" @bind-Value="Bill.Category.Name" class="form-control">
                     <option value=""> Select a category</option>
                     <option id="input-option" value="category1"> Groceries</option>
                     <option value="category2"> Gas</option>
@@ -60,7 +60,7 @@
             </div>        
             <div class="form-floating mb-3">
                 <label for="paymentmethod" class="form-label" id="input-label">PaymentMethod:</label> 
-                <InputText id="paymentmethod" @bind-Value="Bill.PaymentMethod" class="form-control" /> 
+                <InputText id="paymentmethod" @bind-Value="Bill.PaymentMethod.Name" class="form-control" /> 
                 <ValidationMessage For="() => Bill.PaymentMethod" class="text-danger" /> 
             </div>        
             <button type="submit" class="btn btn-primary" id="main-btn">Create</button>

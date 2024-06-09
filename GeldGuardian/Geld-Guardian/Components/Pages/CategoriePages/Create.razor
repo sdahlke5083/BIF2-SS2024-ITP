@@ -1,0 +1,48 @@
+﻿@page "/categories/create"
+@inject Geld_Guardian.Data.ApplicationDbContext DB
+@using Geld_Guardian.Pages.Data.Models
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h4>Categories</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Categories" OnValidSubmit="AddCategorie" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" />
+            <div class="mb-3">
+                <label for="name" class="form-label">Name:</label> 
+                <InputText id="name" @bind-Value="Categories.Name" class="form-control" /> 
+                <ValidationMessage For="() => Categories.Name" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="description" class="form-label">Description:</label> 
+                <InputText id="description" @bind-Value="Categories.Description" class="form-control" /> 
+                <ValidationMessage For="() => Categories.Description" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/categories">Back to List</a>
+</div>
+
+@code {
+
+    [SupplyParameterFromForm]
+    public Categorie Categories { get; set; } = new();
+
+    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+    public async Task AddCategorie()
+    {
+        DB.Categorie.Add(Categories);
+        await DB.SaveChangesAsync();
+        NavigationManager.NavigateTo("/categories");
+    }
+}

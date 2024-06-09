@@ -112,7 +112,7 @@ a, .btn-link {
 
 /*Budget Overview*/
 .table-responsive {
-    max-width: 450px;
+    max-width: 850px;
     overflow-x: auto !important;
 }
     .table-responsive thead {

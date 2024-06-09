@@ -31,11 +31,11 @@
                 <dt class="col-sm-3">DueDate</dt>
                 <dd class="col-sm-9">@bill.DueDate</dd>
                 <dt class="col-sm-3">Status</dt>
-                <dd class="col-sm-9">@bill.Status</dd>
+                <dd class="col-sm-9">@bill.Status.Name</dd>
                 <dt class="col-sm-3">Category</dt>
-                <dd class="col-sm-9">@bill.Category</dd>
+                <dd class="col-sm-9">@bill.Category.Name</dd>
                 <dt class="col-sm-3">PaymentMethod</dt>
-                <dd class="col-sm-9">@bill.PaymentMethod</dd>
+                <dd class="col-sm-9">@bill.PaymentMethod.Name</dd>
             </dl>
             <div>
                 <a href="@($"/bills/edit?billid={bill.BillId}")">Edit</a> |
@@ -55,7 +55,7 @@
 
                 <QuickGrid Class="table" Items="DB.BillItems.Where(m => m.BillId == BillId)">
                     <PropertyColumn Property="billitem => billitem.Description" />
-                    <PropertyColumn Property="billitem => billitem.Category" />
+                    <PropertyColumn Property="billitem => billitem.Category.Name" />
                     <PropertyColumn Property="billitem => billitem.Quantity" />
                     <PropertyColumn Property="billitem => billitem.UnitPrice" />
                 </QuickGrid>
