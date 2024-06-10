@@ -3,6 +3,7 @@
 @inject Geld_Guardian.Data.ApplicationDbContext DB
 @inject AuthenticationStateProvider auth
 @using Geld_Guardian.Pages.Data.Models
+@using Microsoft.AspNetCore.Components.QuickGrid
 @inject NavigationManager NavigationManager
 
 <PageTitle>Create</PageTitle>
@@ -11,64 +12,100 @@
 
 <hr />
 <div class="row">
-    <div class="col-md-10">
-        <EditForm method="post" Model="Bill" OnValidSubmit="AddBill" FormName="create" Enhance>
+    <div class="col-md-6">
+        <EditForm method="post" Model="Bills" OnValidSubmit="AddBill" FormName="create" Enhance>
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" />
             <div class="form-floating mb-3">
-                <label for="storename" class="form-label" id="input-label">StoreName:</label> 
-                <InputText id="storename" @bind-Value="Bill.StoreName" class="form-control" /> 
-                <ValidationMessage For="() => Bill.StoreName" class="text-danger" /> 
-            </div>        
+                <label for="storename" class="form-label" id="input-label">StoreName:</label>
+                <InputText id="storename" @bind-Value="Bills.StoreName" class="form-control" />
+                <ValidationMessage For="() => Bills.StoreName" class="text-danger" />
+            </div>
             <div class="form-floating mb-3">
                 <label for="billingnumber" class="form-label" id="input-label">BillingNumber:</label>
-                <InputText id="billingnumber" @bind-Value="Bill.BillingNumber" class="form-control" /> 
-                <ValidationMessage For="() => Bill.BillingNumber" class="text-danger" /> 
-            </div>        
+                <InputText id="billingnumber" @bind-Value="Bills.BillingNumber" class="form-control" />
+                <ValidationMessage For="() => Bills.BillingNumber" class="text-danger" />
+            </div>
             <div class="form-floating mb-3">
                 <label for="billdate" class="form-label" id="input-label">BillDate:</label>
-                <InputDate id="billdate" @bind-Value="Bill.BillDate" class="form-control" /> 
-                <ValidationMessage For="() => Bill.BillDate" class="text-danger" /> 
-            </div>        
+                <InputDate id="billdate" @bind-Value="Bills.BillDate" class="form-control" />
+                <ValidationMessage For="() => Bills.BillDate" class="text-danger" />
+            </div>
             <div class="form-floating mb-3">
                 <label for="duedate" class="form-label" id="input-label">DueDate:</label>
-                <InputDate id="duedate" @bind-Value="Bill.DueDate" class="form-control" /> 
-                <ValidationMessage For="() => Bill.DueDate" class="text-danger" /> 
+                <InputDate id="duedate" @bind-Value="Bills.DueDate" class="form-control" />
+                <ValidationMessage For="() => Bills.DueDate" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
                 <label for="status" class="form-label" id="input-label">Status:</label>
-                <InputSelect id="status" @bind-Value="Bill.StatusId" class="form-control">
+                <InputSelect id="status" @bind-Value="Bills.StatusId" class="form-control">
                     @foreach (var stat in Statuses)
                     {
                         <option value="@stat.StatusId">@stat.Name</option>
                     }
                 </InputSelect>
-                <ValidationMessage For="() => Bill.Status" class="text-danger" />
+                <ValidationMessage For="() => Bills.Status" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
                 <label for="category" class="form-label" id="input-label">Category:</label>
-                <InputSelect id="category" @bind-Value="Bill.CategoryId" class="form-control">
+                <InputSelect id="category" @bind-Value="Bills.CategoryId" class="form-control">
                     @foreach (var cat in Categories)
                     {
                         <option value="@cat.CategorieId">@cat.Name</option>
                     }
                 </InputSelect>
-                <ValidationMessage For="() => Bill.Category" class="text-danger" />
+                <ValidationMessage For="() => Bills.Category" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
                 <label for="paymentmethod" class="form-label" id="input-label">PaymentMethod:</label>
-                <InputSelect id="paymentmethod" @bind-Value="Bill.PaymentMethodId" class="form-control">
+                <InputSelect id="paymentmethod" @bind-Value="Bills.PaymentMethodId" class="form-control">
                     @foreach (var meth in PaymentMethods)
                     {
                         <option value="@meth.PaymentId">@meth.Name</option>
                     }
                 </InputSelect>
-                <ValidationMessage For="() => Bill.PaymentMethod" class="text-danger" />
+                <ValidationMessage For="() => Bills.PaymentMethod" class="text-danger" />
             </div>
             <button type="submit" class="btn btn-primary" id="main-btn">Create</button>
         </EditForm>
     </div>
+
+
+
+    <div class="col-md-5" id="addItemCon">
+         <EditForm method="post" Model="Item" OnValidSubmit="AddItem" FormName="ItemCreate" Enhance>
+        <h4 id="itemH">Items</h4>
+        <div class="form-floating mb-3">
+            <label for="storename" class="form-label" id="input-label">ItemName:</label>
+            <InputText id="itemname" @bind-Value="Item.Description" class="form-control" />
+        </div>
+            <div class="mb-3">
+                <label for="quantity" class="form-label" id="input-label">Quantity:</label>
+                <InputNumber id="quantity" @bind-Value="Item.Quantity" class="form-control" min="1"/>
+            </div>
+            <div class="mb-3">
+                <label for="unitprice" class="form-label" id="input-label">UnitPrice:</label>
+                <InputNumber id="unitprice" @bind-Value="Item.UnitPrice" class="form-control"/>
+            </div>
+            <button type="submit" class="btn btn-primary" id="item-btn">AddItem</button>
+        </EditForm>
+ 
+        <div class="table-responsive">
+            <QuickGrid id="infos-table" Class="table" Items="ThisBillItems.AsQueryable()" >
+                <PropertyColumn Property="billitem => billitem.Description" />
+                <PropertyColumn Property="billitem => billitem.Quantity" />
+                <PropertyColumn Property="billitem => billitem.UnitPrice" />
+
+
+                <TemplateColumn Context="bill">
+                    <a href="">Delete</a>
+                </TemplateColumn>
+            </QuickGrid>
+        
+        </div>
+    </div>
 </div>
+
 
 <div>
     <a href="/bills">Back to List</a>
@@ -79,26 +116,39 @@
 @code {
 
     [SupplyParameterFromForm]
-    public Bill Bill { get; set; } = new();
+    public Bill Bills { get; set; } = new();
+
+    [SupplyParameterFromForm]
+    public BillItem Item { get; set; } = new();
 
     public List<Categorie> Categories { get; set; } = [];
     public List<PaymentStatus> Statuses { get; set; } = [];
     public List<PaymentMethod> PaymentMethods { get; set; } = [];
+
+    public List<BillItem> ThisBillItems = new List<BillItem>();
 
     protected override void OnInitialized()
     {
         Statuses = DB.PaymentStatus.ToList();
         PaymentMethods = DB.PaymentMethod.ToList();
         Categories = DB.Categorie.ToList();
+        Bills.BillDate = DateTime.Today;
     }
 
     // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
     public async Task AddBill()
     {
-        Bill.UserId = getUser();
-        DB.Bills.Add(Bill);
+        Bills.UserId = getUser();
+        DB.Bills.Add(Bills);
         await DB.SaveChangesAsync();
         NavigationManager.NavigateTo("/bills");
+    }
+
+    public void AddItem()
+    {
+        ThisBillItems.Add(Item);
+        Item = new();
+
     }
 
     private string getUser()
