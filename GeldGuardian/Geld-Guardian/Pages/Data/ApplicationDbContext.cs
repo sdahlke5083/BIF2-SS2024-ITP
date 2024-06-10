@@ -12,6 +12,7 @@ namespace Geld_Guardian.Data
         public DbSet<BillItem> BillItems { get; set; }
         public DbSet<Categorie> Categorie { get; set; }
         public DbSet<PaymentMethod> PaymentMethod { get; set; }
+        public DbSet<PaymentStatus> PaymentStatus { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -65,16 +66,28 @@ namespace Geld_Guardian.Data
                 .HasDefaultValue(1);
 
             modelBuilder.Entity<Bill>()
-                .HasOne(b => b.User);
+                .HasOne(b => b.User)
+                .WithMany()
+                .HasForeignKey(b => b.UserId);
 
             modelBuilder.Entity<Bill>()
-                .HasOne(b => b.PaymentMethod);
+                .HasOne(b => b.PaymentMethod)
+                .WithMany(pm => pm.Bills)
+                .HasForeignKey(b => b.PaymentMethodId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Bill>()
-                .HasOne(b => b.Category);
+                .HasOne(b => b.Category)
+                .WithMany(c => c.Bills)
+                .HasForeignKey(b => b.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             modelBuilder.Entity<Bill>()
-                .HasOne(b => b.Status);
+                .HasOne(b => b.Status)
+                .WithMany(s => s.Bills)
+                .HasForeignKey(b => b.StatusId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Configure BillItem with explicit foreign key to Bill
             modelBuilder.Entity<BillItem>()
@@ -84,7 +97,10 @@ namespace Geld_Guardian.Data
                 .OnDelete(DeleteBehavior.Cascade); // Deletes all BillItems when a Bill is deleted
 
             modelBuilder.Entity<BillItem>()
-                .HasOne(bi => bi.Category);
+                .HasOne(bi => bi.Category)
+                .WithMany(c => c.BillItems)
+                .HasForeignKey(bi => bi.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<BillItem>()
                 .Property(bi => bi.CategoryId)

@@ -34,7 +34,12 @@ else
                 </div>
                 <div class="mb-3">
                     <label for="category" class="form-label">Category:</label>
-                    <InputText id="category" @bind-Value="BillItem.Category.Name" class="form-control" />
+                    <InputSelect id="category" @bind-Value="BillItem.CategoryId" class="form-control" >
+                        @foreach (var category in DB.Categorie)
+                        {
+                            <option value="@category.CategorieId">@category.Name</option>
+                        }
+                    </InputSelect>
                     <ValidationMessage For="() => BillItem.Category" class="text-danger" />
                 </div>
                 <div class="mb-3">

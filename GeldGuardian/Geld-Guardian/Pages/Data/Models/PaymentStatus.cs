@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Geld_Guardian.Pages.Data.Models
 {
@@ -7,6 +8,14 @@ namespace Geld_Guardian.Pages.Data.Models
     {
         public int StatusId { get; set; }
         public string Name { get; set; }
-        
+
+
+        // one to many relationship with Bill
+        public ICollection<Bill> Bills { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

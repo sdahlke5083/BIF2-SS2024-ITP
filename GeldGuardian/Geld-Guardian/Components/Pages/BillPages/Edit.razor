@@ -45,17 +45,32 @@ else
                 </div>
                 <div class="mb-3">
                     <label for="status" class="form-label">Status:</label>
-                    <InputText id="status" @bind-Value="Bill.Status.Name" class="form-control" />
+                    <InputSelect id="status" @bind-Value="Bill.StatusId" class="form-control" >
+                        @foreach (var item in DB.PaymentStatus)
+                        {
+                            <option value="@item.StatusId">@item.Name</option>
+                        }
+                    </InputSelect>
                     <ValidationMessage For="() => Bill.Status" class="text-danger" />
                 </div>
                 <div class="mb-3">
                     <label for="category" class="form-label">Category:</label>
-                    <InputText id="category" @bind-Value="Bill.Category.Name" class="form-control" />
+                    <InputSelect id="category" @bind-Value="Bill.CategoryId" class="form-control">
+                        @foreach (var item in DB.Categorie)
+                        {
+                            <option value="@item.CategorieId">@item.Name</option>
+                        }
+                    </InputSelect>
                     <ValidationMessage For="() => Bill.Category" class="text-danger" />
                 </div>
                 <div class="mb-3">
                     <label for="paymentmethod" class="form-label">PaymentMethod:</label>
-                    <InputText id="paymentmethod" @bind-Value="Bill.PaymentMethod.Name" class="form-control" />
+                    <InputSelect id="paymentmethod" @bind-Value="Bill.PaymentMethodId" class="form-control">
+                        @foreach (var item in DB.PaymentMethod)
+                        {
+                            <option value="@item.PaymentId">@item.Name</option>
+                        }
+                    </InputSelect>
                     <ValidationMessage For="() => Bill.PaymentMethod" class="text-danger" />
                 </div>
                 <button type="submit" class="btn btn-primary" id="main-btn">Save</button>

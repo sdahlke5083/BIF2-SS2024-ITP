@@ -1,10 +1,11 @@
 ﻿@page "/bills"
 @attribute [Authorize]
-@using Microsoft.AspNetCore.Components.QuickGrid
 @inject Geld_Guardian.Data.ApplicationDbContext DB
 @inject AuthenticationStateProvider auth
-@using Geld_Guardian.Pages.Data.Models
 @inject NavigationManager NavigationManager
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Geld_Guardian.Pages.Data.Models
+@using Microsoft.EntityFrameworkCore
 
 <PageTitle>Index</PageTitle>
 
@@ -14,7 +15,7 @@
     <a href="bills/create">Create New</a>
 </p>
 <div class="table-responsive">
-    <QuickGrid id="infos-table" Class="table" Items="DB.Bills.Where(m => m.UserId == this.getUser() )">
+    <QuickGrid id="infos-table" Class="table" Items="Bills" Pagination="@pagination">
         <PropertyColumn Property="bill => bill.StoreName" />
         <PropertyColumn Property="bill => bill.BillingNumber" />
         <PropertyColumn Property="bill => bill.BillDate" />
@@ -29,9 +30,24 @@
             <a href="@($"bills/delete?billid={bill.BillId}")">Delete</a>
         </TemplateColumn>
     </QuickGrid>
+    <Paginator State="@pagination" />
 </div>
 
 @code {
+    PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
+    IQueryable<Bill>? Bills;
+
+    protected override void OnInitialized()
+    {
+        Bills = (DB.Bills
+                    .Where(m => m.UserId == this.getUser())
+                    .Include(b => b.Category)
+                    .Include(b => b.Status)
+                    .Include(b => b.PaymentMethod)
+        ).AsQueryable();
+    }
+
+
     private string getUser()
     {
         var userPrincipal = auth.GetAuthenticationStateAsync().Result.User;

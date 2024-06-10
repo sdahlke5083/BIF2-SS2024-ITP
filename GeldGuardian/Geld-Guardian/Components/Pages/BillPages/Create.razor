@@ -34,35 +34,37 @@
                 <label for="duedate" class="form-label" id="input-label">DueDate:</label>
                 <InputDate id="duedate" @bind-Value="Bill.DueDate" class="form-control" /> 
                 <ValidationMessage For="() => Bill.DueDate" class="text-danger" /> 
-            </div>        
+            </div>
             <div class="form-floating mb-3">
                 <label for="status" class="form-label" id="input-label">Status:</label>
-                <InputSelect id="status" @bind-Value="Bill.Status.Name" class="form-control">
-                    <option value="">------</option>
-                    <option id="input-option" value="category1"> Paid</option>
-                    <option value="category2"> Open</option>
-                    <option id="input-option" value="category3"> Received</option>
-                </InputSelect> 
-                <ValidationMessage For="() => Bill.Status" class="text-danger" /> 
-            </div>        
+                <InputSelect id="status" @bind-Value="Bill.StatusId" class="form-control">
+                    @foreach (var stat in Statuses)
+                    {
+                        <option value="@stat.StatusId">@stat.Name</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => Bill.Status" class="text-danger" />
+            </div>
             <div class="form-floating mb-3">
                 <label for="category" class="form-label" id="input-label">Category:</label>
-                <InputSelect id="category" @bind-Value="Bill.Category.Name" class="form-control">
-                    <option value=""> Select a category</option>
-                    <option id="input-option" value="category1"> Groceries</option>
-                    <option value="category2"> Gas</option>
-                    <option id="input-option" value="category3"> Hobby</option>
-                    <option value="category4"> Rent</option>
-                    <option id="input-option" value="category5"> Entertainment</option>
-                    <option value="category6"> Work</option>
+                <InputSelect id="category" @bind-Value="Bill.CategoryId" class="form-control">
+                    @foreach (var cat in Categories)
+                    {
+                        <option value="@cat.CategorieId">@cat.Name</option>
+                    }
                 </InputSelect>
-                <ValidationMessage For="() => Bill.Category" class="text-danger" /> 
-            </div>        
+                <ValidationMessage For="() => Bill.Category" class="text-danger" />
+            </div>
             <div class="form-floating mb-3">
-                <label for="paymentmethod" class="form-label" id="input-label">PaymentMethod:</label> 
-                <InputText id="paymentmethod" @bind-Value="Bill.PaymentMethod.Name" class="form-control" /> 
-                <ValidationMessage For="() => Bill.PaymentMethod" class="text-danger" /> 
-            </div>        
+                <label for="paymentmethod" class="form-label" id="input-label">PaymentMethod:</label>
+                <InputSelect id="paymentmethod" @bind-Value="Bill.PaymentMethodId" class="form-control">
+                    @foreach (var meth in PaymentMethods)
+                    {
+                        <option value="@meth.PaymentId">@meth.Name</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => Bill.PaymentMethod" class="text-danger" />
+            </div>
             <button type="submit" class="btn btn-primary" id="main-btn">Create</button>
         </EditForm>
     </div>
@@ -78,6 +80,17 @@
 
     [SupplyParameterFromForm]
     public Bill Bill { get; set; } = new();
+
+    public List<Categorie> Categories { get; set; } = [];
+    public List<PaymentStatus> Statuses { get; set; } = [];
+    public List<PaymentMethod> PaymentMethods { get; set; } = [];
+
+    protected override void OnInitialized()
+    {
+        Statuses = DB.PaymentStatus.ToList();
+        PaymentMethods = DB.PaymentMethod.ToList();
+        Categories = DB.Categorie.ToList();
+    }
 
     // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
     public async Task AddBill()

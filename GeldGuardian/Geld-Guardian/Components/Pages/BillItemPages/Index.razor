@@ -1,6 +1,7 @@
 ﻿@page "/billitems"
-@using Microsoft.AspNetCore.Components.QuickGrid
 @inject Geld_Guardian.Data.ApplicationDbContext DB
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Microsoft.EntityFrameworkCore
 @using Geld_Guardian.Pages.Data.Models
 
 <PageTitle>Index</PageTitle>
@@ -11,12 +12,12 @@
     <a href="billitems/create">Create New</a>
 </p>
 
-<QuickGrid Class="table" Items="DB.BillItems">
-    <PropertyColumn Property="billitem => billitem.BillId" />
-    <PropertyColumn Property="billitem => billitem.Description" />
-    <PropertyColumn Property="billitem => billitem.Category.Name" />
-    <PropertyColumn Property="billitem => billitem.Quantity" />
-    <PropertyColumn Property="billitem => billitem.UnitPrice" />
+<QuickGrid Class="table" Items="BillItems">
+    <PropertyColumn Title="Bill ID" Property="billitem => billitem.BillId" />
+    <PropertyColumn Title="Description" Property="billitem => billitem.Description" />
+    <PropertyColumn Title="Category" Property="billitem => billitem.Category.Name" />
+    <PropertyColumn Title="Quantity" Property="billitem => billitem.Quantity" />
+    <PropertyColumn Title="Price per Unit" Property="billitem => billitem.UnitPrice" />
 
     <TemplateColumn Context="billitem">
         <a href="@($"billitems/edit?billitemid={billitem.BillItemId}")">Edit</a> |
@@ -24,3 +25,14 @@
         <a href="@($"billitems/delete?billitemid={billitem.BillItemId}")">Delete</a>
     </TemplateColumn>
 </QuickGrid>
+
+@code {
+    IQueryable<BillItem> BillItems;
+
+    protected override void OnInitialized()
+    {
+        BillItems = DB.BillItems.Include(bi => bi.Category).AsQueryable();
+    }
+
+
+}

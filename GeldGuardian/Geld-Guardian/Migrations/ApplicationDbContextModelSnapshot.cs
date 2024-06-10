@@ -63,7 +63,7 @@ namespace Geld_Guardian.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("bills");
+                    b.ToTable("bills", (string)null);
                 });
 
             modelBuilder.Entity("Geld_Guardian.Pages.Data.Models.BillItem", b =>
@@ -95,7 +95,7 @@ namespace Geld_Guardian.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("BillItems");
+                    b.ToTable("BillItems", (string)null);
                 });
 
             modelBuilder.Entity("Geld_Guardian.Pages.Data.Models.Categorie", b =>
@@ -112,7 +112,7 @@ namespace Geld_Guardian.Migrations
 
                     b.HasKey("CategorieId");
 
-                    b.ToTable("Categorie");
+                    b.ToTable("Categorie", (string)null);
 
                     b.HasData(
                         new
@@ -171,7 +171,7 @@ namespace Geld_Guardian.Migrations
 
                     b.HasKey("PaymentId");
 
-                    b.ToTable("PaymentMethod");
+                    b.ToTable("PaymentMethod", (string)null);
 
                     b.HasData(
                         new
@@ -217,7 +217,7 @@ namespace Geld_Guardian.Migrations
 
                     b.HasKey("StatusId");
 
-                    b.ToTable("PaymentStatus");
+                    b.ToTable("PaymentStatus", (string)null);
 
                     b.HasData(
                         new

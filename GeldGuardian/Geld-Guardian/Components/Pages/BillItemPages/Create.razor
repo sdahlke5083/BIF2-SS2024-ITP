@@ -26,8 +26,13 @@
             </div>        
             <div class="mb-3">
                 <label for="category" class="form-label">Category:</label> 
-                <InputText id="category" @bind-Value="BillItem.Category.Name" class="form-control" /> 
-                <ValidationMessage For="() => BillItem.Category" class="text-danger" /> 
+                <InputSelect id="category" @bind-Value="BillItem.CategoryId" class="form-control" >
+                    @foreach (var cat in Categories)
+                    {
+                        <option value="@cat.CategorieId">@cat.Name</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => BillItem.CategoryId" class="text-danger" /> 
             </div>        
             <div class="mb-3">
                 <label for="quantity" class="form-label">Quantity:</label> 
@@ -52,6 +57,13 @@
 
     [SupplyParameterFromForm]
     public BillItem BillItem { get; set; } = new();
+
+    public List<Categorie> Categories { get; set; } = [];
+
+    protected override void OnInitialized()
+    {
+        Categories = DB.Categorie.ToList();
+    }
 
     // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
     public async Task AddBillItem()

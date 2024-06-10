@@ -61,7 +61,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        bill = await DB.Bills.FirstOrDefaultAsync(m => m.BillId == BillId);
+        bill = await DB.Bills
+                            .Include(b => b.Status)
+                            .Include(b => b.Category)
+                            .Include(b => b.PaymentMethod)
+                            .FirstOrDefaultAsync(m => m.BillId == BillId);
 
         if (bill is null)
         {
