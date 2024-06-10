@@ -5,6 +5,12 @@
     <RootNamespace>Geld_Guardian</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Pages\Data\Services\**" />
+    <Content Remove="Pages\Data\Services\**" />
+    <EmbeddedResource Remove="Pages\Data\Services\**" />
+    <None Remove="Pages\Data\Services\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Azure.AI.OpenAI" Version="1.0.0-beta.16" />
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="8.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.6" />
@@ -22,6 +28,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Database\" />
-    <Folder Include="Pages\Data\Services\" />
   </ItemGroup>
 </Project>

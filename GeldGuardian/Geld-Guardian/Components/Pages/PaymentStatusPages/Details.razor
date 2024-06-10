@@ -1,4 +1,4 @@
-﻿@page "/paymentmethods/details"
+﻿@page "/paymentstatuses/details"
 @attribute [Authorize(Roles = "Admin")]
 @inject Geld_Guardian.Data.ApplicationDbContext DB
 @using Geld_Guardian.Pages.Data.Models
@@ -10,37 +10,35 @@
 <h1>Details</h1>
 
 <div>
-    <h4>PaymentMethod</h4>
+    <h4>PaymentStatus</h4>
     <hr />
-    @if (paymentmethod is null)
+    @if (paymentstatus is null)
     {
         <p><em>Loading...</em></p>
     }
     else {
         <dl class="row">
             <dt class="col-sm-2">Name</dt>
-            <dd class="col-sm-10">@paymentmethod.Name</dd>
-            <dt class="col-sm-2">Description</dt>
-            <dd class="col-sm-10">@paymentmethod.Description</dd>
+            <dd class="col-sm-10">@paymentstatus.Name</dd>
         </dl>
         <div>
-            <a href="@($"/paymentmethods/edit?id={paymentmethod.PaymentId}")">Edit</a> |
-            <a href="@($"/paymentmethods")">Back to List</a>
+            <a href="@($"/paymentstatuses/edit?statusid={paymentstatus.StatusId}")">Edit</a> |
+            <a href="@($"/paymentstatuses")">Back to List</a>
         </div>
     }
 </div>
 
 @code {
-    PaymentMethod? paymentmethod;
+    PaymentStatus? paymentstatus;
 
     [SupplyParameterFromQuery]
-    public int Id { get; set; }
+    public int StatusId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        paymentmethod = await DB.PaymentMethod.FirstOrDefaultAsync(m => m.PaymentId == Id);
+        paymentstatus = await DB.PaymentStatus.FirstOrDefaultAsync(m => m.StatusId == StatusId);
 
-        if (paymentmethod is null)
+        if (paymentstatus is null)
         {
             NavigationManager.NavigateTo("notfound");
         }

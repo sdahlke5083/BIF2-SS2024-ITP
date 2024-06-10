@@ -1,4 +1,5 @@
 ﻿@page "/paymentmethods"
+@attribute [Authorize(Roles = "Admin")]
 @using Microsoft.AspNetCore.Components.QuickGrid
 @inject Geld_Guardian.Data.ApplicationDbContext DB
 @using Geld_Guardian.Pages.Data.Models
@@ -17,7 +18,6 @@
 
     <TemplateColumn Context="paymentmethod">
         <a href="@($"paymentmethods/edit?id={paymentmethod.PaymentId}")">Edit</a> |
-        <a href="@($"paymentmethods/details?id={paymentmethod.PaymentId}")">Details</a> |
-        <a href="@($"paymentmethods/delete?id={paymentmethod.PaymentId}")">Delete</a>
+        <a href="@($"paymentmethods/details?id={paymentmethod.PaymentId}")">Details</a>
     </TemplateColumn>
 </QuickGrid>

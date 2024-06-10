@@ -1,0 +1,22 @@
+﻿@page "/paymentstatuses"
+@attribute [Authorize(Roles = "Admin")]
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject Geld_Guardian.Data.ApplicationDbContext DB
+@using Geld_Guardian.Pages.Data.Models
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="paymentstatuses/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="DB.PaymentStatus">
+    <PropertyColumn Property="paymentstatus => paymentstatus.Name" />
+
+    <TemplateColumn Context="paymentstatus">
+        <a href="@($"paymentstatuses/edit?statusid={paymentstatus.StatusId}")">Edit</a> |
+        <a href="@($"paymentstatuses/details?statusid={paymentstatus.StatusId}")">Details</a>
+    </TemplateColumn>
+</QuickGrid>

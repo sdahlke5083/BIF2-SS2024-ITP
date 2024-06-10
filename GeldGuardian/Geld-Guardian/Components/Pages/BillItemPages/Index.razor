@@ -1,5 +1,7 @@
 ﻿@page "/billitems"
+@attribute [Authorize]
 @inject Geld_Guardian.Data.ApplicationDbContext DB
+@inject AuthenticationStateProvider auth
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using Microsoft.EntityFrameworkCore
 @using Geld_Guardian.Pages.Data.Models
@@ -31,8 +33,21 @@
 
     protected override void OnInitialized()
     {
-        BillItems = DB.BillItems.Include(bi => bi.Category).AsQueryable();
+        BillItems = DB.BillItems
+                            .Include(bi => bi.Category)
+                            .Include(bi => bi.Bill)
+                            .Where(bi => bi.Bill.UserId == getUser())
+                            .AsQueryable();
     }
 
+
+    private string getUser()
+    {
+        var userPrincipal = auth.GetAuthenticationStateAsync().Result.User;
+        var userid = userPrincipal.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+        if (!string.IsNullOrEmpty(userid))
+            return userid;//await UserDbContext.Users.FirstOrDefaultAsync(u => u.Id == userid);
+        return null;
+    }
 
 }
