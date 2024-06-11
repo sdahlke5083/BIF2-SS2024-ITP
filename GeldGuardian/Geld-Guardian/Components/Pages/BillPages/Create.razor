@@ -2,13 +2,15 @@
 @attribute [Authorize]
 @inject Geld_Guardian.Data.ApplicationDbContext DB
 @inject AuthenticationStateProvider auth
+@inject NavigationManager NavigationManager
 @using Geld_Guardian.Pages.Data.Models
 @using Microsoft.AspNetCore.Components.QuickGrid
-@inject NavigationManager NavigationManager
 
 <PageTitle>Create</PageTitle>
 
 <h1>Earnings/Expenses</h1>
+
+
 
 <hr />
 <div class="row">
@@ -18,7 +20,7 @@
             <ValidationSummary class="text-danger" />
             <div class="form-floating mb-3">
                 <label for="storename" class="form-label" id="input-label">StoreName:</label>
-                <InputText id="storename" @bind-Value="Bills.StoreName" class="form-control" />
+                <InputText id="storename" @bind-Value="Bills.StoreName" class="form-control"/>
                 <ValidationMessage For="() => Bills.StoreName" class="text-danger" />
             </div>
             <div class="form-floating mb-3">
@@ -73,25 +75,25 @@
 
 
     <div class="col-md-5" id="addItemCon">
-         <EditForm method="post" Model="Item" OnValidSubmit="AddItem" FormName="ItemCreate" Enhance>
-        <h4 id="itemH">Items</h4>
-        <div class="form-floating mb-3">
-            <label for="storename" class="form-label" id="input-label">ItemName:</label>
-            <InputText id="itemname" @bind-Value="Item.Description" class="form-control" />
-        </div>
+        <EditForm method="post" Model="Item" OnValidSubmit="AddItem" FormName="ItemCreate" Enhance>
+            <h4 id="itemH">Items</h4>
+            <div class="form-floating mb-3">
+                <label for="storename" class="form-label" id="input-label">ItemName:</label>
+                <InputText id="itemname" @bind-Value="Item.Description" class="form-control" />
+            </div>
             <div class="mb-3">
                 <label for="quantity" class="form-label" id="input-label">Quantity:</label>
-                <InputNumber id="quantity" @bind-Value="Item.Quantity" class="form-control" min="1"/>
+                <InputNumber id="quantity" @bind-Value="Item.Quantity" class="form-control" min="1" />
             </div>
             <div class="mb-3">
                 <label for="unitprice" class="form-label" id="input-label">UnitPrice:</label>
-                <InputNumber id="unitprice" @bind-Value="Item.UnitPrice" class="form-control"/>
+                <InputNumber id="unitprice" @bind-Value="Item.UnitPrice" class="form-control" />
             </div>
             <button type="submit" class="btn btn-primary" id="item-btn">AddItem</button>
         </EditForm>
- 
+
         <div class="table-responsive">
-            <QuickGrid id="infos-table" Class="table" Items="ThisBillItems.AsQueryable()" >
+            <QuickGrid id="infos-table" Class="table" Items="ThisBillItems.AsQueryable()">
                 <PropertyColumn Property="billitem => billitem.Description" />
                 <PropertyColumn Property="billitem => billitem.Quantity" />
                 <PropertyColumn Property="billitem => billitem.UnitPrice" />
@@ -101,7 +103,7 @@
                     <a href="">Delete</a>
                 </TemplateColumn>
             </QuickGrid>
-        
+
         </div>
     </div>
 </div>
@@ -110,6 +112,25 @@
 <div>
     <a href="/bills">Back to List</a>
 </div>
+
+
+@if (showErrors)
+{
+<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; bottom: 0;">
+  <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
+    <div class="toast-header">
+      <img src="..." class="rounded mr-2" alt="...">
+      <strong class="mr-auto">Bootstrap</strong>
+      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="toast-body">
+      Hello, world! This is a toast message.
+    </div>
+  </div>
+</div>
+}
 
 
 
@@ -124,8 +145,8 @@
     public List<Categorie> Categories { get; set; } = [];
     public List<PaymentStatus> Statuses { get; set; } = [];
     public List<PaymentMethod> PaymentMethods { get; set; } = [];
-
     public List<BillItem> ThisBillItems = new List<BillItem>();
+    public bool showErrors = false;
 
     protected override void OnInitialized()
     {
@@ -141,11 +162,23 @@
         Bills.UserId = getUser();
         DB.Bills.Add(Bills);
         await DB.SaveChangesAsync();
+        int BillId = Bills.BillId;
+        foreach (var item in ThisBillItems)
+        {
+            item.BillId = BillId;
+            item.CategoryId = Bills.CategoryId;
+            DB.BillItems.Add(item);
+        }
         NavigationManager.NavigateTo("/bills");
     }
 
     public void AddItem()
     {
+        if (Item.Quantity <= 0 || Item.UnitPrice < 0)
+        {
+            showErrors = true;
+            return;
+        }
         ThisBillItems.Add(Item);
         Item = new();
 
