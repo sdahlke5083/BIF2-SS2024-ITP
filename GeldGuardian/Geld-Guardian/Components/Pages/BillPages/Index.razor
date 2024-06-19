@@ -14,26 +14,29 @@
 <p>
     <a href="bills/create">Create New</a>
 </p>
-<div class="table-responsive">
-    <QuickGrid id="infos-table" Class="table" Items="Bills" Pagination="@pagination">
-        <PropertyColumn Property="bill => bill.StoreName" />
-        <PropertyColumn Property="bill => bill.BillingNumber" />
-        <PropertyColumn Property="bill => bill.BillDate" />
-        <PropertyColumn Property="bill => bill.DueDate" />
-        <PropertyColumn Property="bill => bill.Status.Name" />
-        <PropertyColumn Property="bill => bill.Category.Name" />
-        <PropertyColumn Property="bill => bill.PaymentMethod.Name" />
+<div class="col-lg-12 col-md-8 col-sm-12">
+    <div class="table-responsive">
+        <QuickGrid id="infos-table" Class="table" Items="@Bills" Pagination="@pagination">
+            <PropertyColumn Property="bill => bill.StoreName" />
+            <PropertyColumn Property="bill => bill.BillingNumber" />
+            <PropertyColumn Property="bill => bill.BillDate" />
+            <PropertyColumn Property="bill => bill.DueDate" />
+            <PropertyColumn Property="bill => bill.Status" />
+            <PropertyColumn Property="bill => bill.Category" />
+            <PropertyColumn Property="bill => bill.PaymentMethod" />
 
-        <TemplateColumn Context="bill">
-            <a href="@($"bills/edit?billid={bill.BillId}")">Edit</a> |
-            <a href="@($"bills/details?billid={bill.BillId}")">Details</a> |
-            <a href="@($"bills/delete?billid={bill.BillId}")">Delete</a>
-        </TemplateColumn>
-    </QuickGrid>
+            <TemplateColumn Context="bill">
+                <a href="@($"bills/edit?billid={bill.BillId}")">Edit</a> |
+                <a href="@($"bills/details?billid={bill.BillId}")">Details</a> |
+                <a href="@($"bills/delete?billid={bill.BillId}")">Delete</a>
+            </TemplateColumn>
+        </QuickGrid>
     <Paginator State="@pagination" />
+    
+    </div>
 </div>
-
 @code {
+
     PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
     IQueryable<Bill>? Bills;
 
