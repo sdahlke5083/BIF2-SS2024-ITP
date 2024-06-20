@@ -24,9 +24,7 @@ else
                 <ValidationSummary />
                 <input type="hidden" name="BillItem.BillItemId" value="@BillItem.BillItemId" />
                 <div class="mb-3">
-                    <label for="billid" class="form-label">BillId:</label>
-                    <InputNumber id="billid" @bind-Value="BillItem.BillId" class="form-control" />
-                    <ValidationMessage For="() => BillItem.BillId" class="text-danger" />
+                    <p>Billing Number: @BillItem.Bill.BillingNumber</p>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description:</label>
@@ -60,7 +58,7 @@ else
 }
 
 <div>
-    <a href="/billitems">Back to List</a>
+    <a href="@($"/bills/details?billid={BillItem.BillId}")">Back to List</a>
 </div>
 
 @code {
@@ -72,7 +70,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        BillItem ??= await DB.BillItems.FirstOrDefaultAsync(m => m.BillItemId == BillItemId);
+        BillItem ??= await DB.BillItems.Include(x => x.Bill).FirstOrDefaultAsync(m => m.BillItemId == BillItemId);
 
         if (BillItem is null)
         {

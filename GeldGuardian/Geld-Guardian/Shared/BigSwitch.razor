@@ -1,0 +1,127 @@
+﻿<div class="flipswitch">
+    <InputCheckbox @bind-Value="IsEarnings" name="flipswitch" class="flipswitch-cb" id="fs" />
+    <label class="flipswitch-label" for="fs">
+        <div class="flipswitch-inner"></div>
+        <div class="flipswitch-switch">
+            <span class="@flipContent" aria-hidden="true"></span>
+        </div>
+    </label>
+</div>
+
+<style>
+    .flipswitch {
+        position: relative;
+        width: 285px;
+    }
+
+        .flipswitch input[type=checkbox] {
+            display: none;
+        }
+
+    .flipswitch-label {
+        display: block;
+        overflow: hidden;
+        cursor: pointer;
+        border: 0px solid #999999;
+        border-radius: 11px;
+    }
+
+    .flipswitch-inner {
+        width: 200%;
+        margin-left: -100%;
+        transition: margin 0.3s ease-in 0s;
+    }
+
+        .flipswitch-inner:before, .flipswitch-inner:after {
+            float: left;
+            width: 50%;
+            height: 100px;
+            padding: 0;
+            line-height: 100px;
+            font-size: 2.5rem;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .flipswitch-inner:before {
+            content: "@TextOn";
+            padding-left: 10px;
+            background-color: #FFFFFF;
+            color: #b54e5d;
+        }
+
+        .flipswitch-inner:after {
+            content: "@TextOff";
+            padding-right: 10px;
+            background-color: #FFF;
+            color: #b54e5d;
+            text-align: right;
+        }
+
+    .flipswitch-switch {
+        width: 50px;
+        margin: 25px;
+        background: #F9BEC7;
+        border: 1px solid #f78d9d;
+        border-radius: 11px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 190px;
+        transition: all 0.3s ease-in 0s;
+        text-align: center;
+    }
+
+        .flipswitch-switch span {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+    .flipswitch-cb:checked + .flipswitch-label .flipswitch-inner {
+        margin-left: 0;
+    }
+
+    .flipswitch-cb:checked + .flipswitch-label .flipswitch-switch {
+        right: 0;
+    }
+
+</style>
+
+@code {
+    [Parameter]
+    public bool IsEarnings
+    {
+        get => _isEarnings;
+        set
+        {
+            if (_isEarnings != value)
+            {
+                _isEarnings = value;
+                IsEarningsChanged.InvokeAsync(value);
+            }
+            updateIcon();
+        }
+    }
+    [Parameter]
+    public string TextOn { get; set; } = "ON";
+    [Parameter]
+    public string TextOff { get; set; } = "OFF";
+    [Parameter]
+    public EventCallback<bool> IsEarningsChanged { get; set; }
+
+
+    private void updateIcon()
+    {
+        if (IsEarnings)
+        {
+            flipContent = "oi oi-chevron-left";
+        }
+        else
+        {
+            flipContent = "oi oi-chevron-right";
+        }
+    }
+
+    private string flipContent { get; set; } = "";
+    private bool _isEarnings = false;
+}

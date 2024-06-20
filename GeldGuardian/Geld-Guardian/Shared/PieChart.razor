@@ -1,0 +1,116 @@
+﻿@using System.Drawing
+@using System.Globalization
+
+
+<svg width="150" height="@(200 + Slices.Count * 20)" viewBox="@(pieRadius * -1) @((pieRadius - (Slices.Count-1) * 20 ) * -1) @(pieRadius * 1 * 2) @(pieRadius * 1 * 2)">
+    <style>
+        /* <![CDATA[ */
+        .pieChartSlice {
+            fill-opacity: 1;
+            stroke: white;
+            stroke-width: 1px;
+            stroke-linejoin: bevel; /* prevents "pointy ends" from overlapping onto other pie slices */
+        }
+        /* ]]> */
+    </style>
+    @{
+        var i = 0;
+    }
+    @foreach (var slice in Slices)
+    {
+        var slicePercentage = (double)(slice.Value / Slices.Sum(s => s.Value));
+        var sliceAngleRadians = slicePercentage * (2 * Math.PI);
+        var sliceColor = (System.Drawing.ColorTranslator.ToHtml(slice.Color));
+        <g>
+            <title>
+                @(string.Format("{0}: {1} ({2})", slice.Label, slice.DisplayValue, string.Format("{0:0.#}%", (100 * slicePercentage))))
+            </title>
+            @if (Slices.Count == 1)
+            {
+                <circle class="pieChartSlice" cx="@pieCenterX" cy="@pieCenterY" r="@pieRadius" fill="@sliceColor" />
+            }
+            else
+            {
+                <path class="pieChartSlice" d="@PieSlicePathDesc(startAngle, sliceAngleRadians)" fill="@sliceColor" />
+            }
+            <animateTransform attributeName="transform" type="scale" from="1 1" to="1.05 1.05"
+                              begin="mouseover" dur="0.1s" fill="freeze" repeatCount="1" />
+            <animateTransform attributeName="transform" type="scale" from="1.05 1.05 0 0" to="1 1 0 0"
+                              begin="mouseout" dur="0.1s" fill="freeze" repeatCount="1" />
+        </g>
+        startAngle += sliceAngleRadians; // increment to the starting position for the next slice
+        i++;
+        <g>
+            <text x="0" y="@(pieRadius + i*20)" fill="@sliceColor" font-size="10" text-anchor="middle" alignment-baseline="middle" transform="translate(0,0)">
+                <tspan x="0" dy="0">@slice.Label</tspan>
+                <tspan x="0" dy="1.2em">@slice.DisplayValue</tspan>
+            </text>
+        </g>
+    }
+</svg>
+
+
+
+
+@code {
+    double startAngle = -(Math.PI / 2); // (12-o-clock position)
+    [Parameter]
+    public List<PieChartSlice> Slices { get; set; }
+
+    public class PieChartSlice
+    {
+        public decimal Value { get; set; }
+        public string DisplayValue { get; set; }
+        public string Label { get; set; }
+        public Color Color { get; set; } = Color.Black;
+
+        private Random rnd = new Random();
+
+        public PieChartSlice(decimal Value, decimal MaxValue, string Label )
+        {
+            this.Value = ((Value / MaxValue) * 100);
+            this.DisplayValue = Value.ToString() + " €";
+            this.Label = Label;
+            this.Color = getRandomColor();
+        }
+
+        private Color getRandomColor()
+        {
+            return Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+        }
+    }
+
+    
+
+    protected override void OnInitialized()
+    {
+       // this.Slices = new List<PieChartSlice>();
+    }
+
+
+    private double pieCenterX = 0;
+    private double pieCenterY = 0;
+    private double pieRadius = 50;
+
+    public string PieSlicePathDesc(double startAngleRadians, double angleRadians)
+    {
+        bool longArcFlag = (angleRadians > Math.PI);
+        var startX = pieCenterX + (pieRadius * Math.Cos(startAngleRadians));
+        var startY = pieCenterY + (pieRadius * Math.Sin(startAngleRadians));
+        var endX = pieCenterX + (pieRadius * Math.Cos((startAngleRadians + angleRadians)));
+        var endY = pieCenterY + (pieRadius * Math.Sin((startAngleRadians + angleRadians)));
+
+        string pathDesc = string.Format("M{0:0.###},{1:0.###} L{2:0.###},{3:0.###} A{4:0.###},{4:0.###} 0 {5},1 {6:0.###},{7:0.###} z",
+            pieCenterX,
+            pieCenterY,
+            startX.ToString(CultureInfo.InvariantCulture),
+            startY.ToString(CultureInfo.InvariantCulture),
+            pieRadius,
+            (longArcFlag ? 1 : 0),
+            endX.ToString(CultureInfo.InvariantCulture),
+            endY.ToString(CultureInfo.InvariantCulture)
+        );
+
+        return pathDesc;
+    }
+}

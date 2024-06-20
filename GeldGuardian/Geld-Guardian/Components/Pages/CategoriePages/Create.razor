@@ -24,7 +24,17 @@
                 <label for="description" class="form-label">Description:</label> 
                 <InputText id="description" @bind-Value="Categories.Description" class="form-control" /> 
                 <ValidationMessage For="() => Categories.Description" class="text-danger" /> 
-            </div>        
+            </div>  
+            <div class="mb-3">
+                <label for="useage" class="form-label">Useage:</label>
+                <InputRadioGroup id="useage" @bind-Value="Categories.EarningsInsteadOfExpenses" class="form-control">
+                    <label for="use1" class="form-label">Earnings</label>
+                    <InputRadio id="use1" Value="true" /> 
+                    <label for="use2" class="form-label">Expenses</label>
+                    <InputRadio id="use2" Value="false" />
+                </InputRadioGroup>
+                <ValidationMessage For="() => Categories.EarningsInsteadOfExpenses" class="text-danger" />
+            </div>
             <button type="submit" class="btn btn-primary">Create</button>
         </EditForm>
     </div>

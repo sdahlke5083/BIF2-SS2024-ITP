@@ -19,8 +19,8 @@
     }
     else {
         <dl class="row">
-            <dt class="col-sm-2">BillId</dt>
-            <dd class="col-sm-10">@billitem.BillId</dd>
+            <dt class="col-sm-2">Bill</dt>
+            <dd class="col-sm-10">@billitem.Bill.StoreName: @billitem.Bill.BillingNumber</dd>
         </dl>
         <dl class="row">
             <dt class="col-sm-2">Description</dt>
@@ -40,7 +40,7 @@
         </dl>
         <EditForm method="post" Model="billitem" OnValidSubmit="DeleteBillItem" FormName="delete" Enhance>
             <button type="submit" class="btn btn-danger" disabled="@(billitem is null)">Delete</button> |
-            <a href="/billitems">Back to List</a>
+            <a href="@($"/bills/details?billid={billitem.BillId}")">Back to List</a>
         </EditForm>
     }
 </div>
@@ -55,6 +55,7 @@
     {
         billitem = await DB.BillItems
                                 .Include(b => b.Category)
+                                .Include(b => b.Bill)
                                 .FirstOrDefaultAsync(m => m.BillItemId == BillItemId);
 
         if (billitem is null)
@@ -67,6 +68,6 @@
     {
         DB.BillItems.Remove(billitem!);
         await DB.SaveChangesAsync();
-        NavigationManager.NavigateTo("/billitems");
+        NavigationManager.NavigateTo("/bills");
     }
 }

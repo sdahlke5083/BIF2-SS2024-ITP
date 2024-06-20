@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.Build.Framework;
 using Microsoft.AspNetCore.Identity;
+using EntityFrameworkCore.Projectables;
+using System.Linq;
 
 namespace Geld_Guardian.Pages.Data.Models
 {
@@ -19,8 +21,10 @@ namespace Geld_Guardian.Pages.Data.Models
         public int StatusId { get; set; } = 1;
         public int CategoryId { get; set; } = 1;
         public int PaymentMethodId { get; set; } = 1;
-        public decimal TotalAmount => getTotalAmount();
-        //public decimal Netto { get; set; }
+        [Projectable]
+        public decimal TotalAmount => BillItems.Sum(bi => bi.TotalPrice);
+        // Earnings specific field(s)
+        public decimal? Netto { get; set; }
 
         // Navigation property to access related BillItems
         public List<BillItem> BillItems { get; set; } = [];
@@ -31,15 +35,5 @@ namespace Geld_Guardian.Pages.Data.Models
         public Categorie Category { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
 
-
-        private decimal getTotalAmount()
-        {
-            decimal total = 0;
-            foreach (var item in BillItems)
-            {
-                total += item.TotalPrice;
-            }
-            return total;
-        }
     }
 }

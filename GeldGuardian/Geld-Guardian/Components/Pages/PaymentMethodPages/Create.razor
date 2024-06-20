@@ -24,7 +24,12 @@
                 <label for="description" class="form-label">Description:</label> 
                 <InputText id="description" @bind-Value="PaymentMethod.Description" class="form-control" /> 
                 <ValidationMessage For="() => PaymentMethod.Description" class="text-danger" /> 
-            </div>        
+            </div>
+            <div class="mb-3">
+                <label for="useage" class="form-label">Use only for Expenses:</label>
+                <InputCheckbox id="useage" @bind-Value="PaymentMethod.IsExpensesOnly" class="form-control" />
+                <ValidationMessage For="() => PaymentMethod.IsExpensesOnly" class="text-danger" />
+            </div>
             <button type="submit" class="btn btn-primary">Create</button>
         </EditForm>
     </div>

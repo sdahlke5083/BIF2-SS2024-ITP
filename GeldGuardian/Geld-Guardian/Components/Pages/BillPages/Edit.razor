@@ -4,6 +4,7 @@
 @using Geld_Guardian.Pages.Data.Models
 @inject NavigationManager NavigationManager
 @using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
 
 <PageTitle>Edit</PageTitle>
 
@@ -18,57 +19,58 @@
 else
 {
     <div class="row">
-        <div class="col-md-4">
+    @if (isEarningsFormVisible)
+    { // ------------------------------------ Earnings
+        <div class="col-md-8">
             <EditForm method="post" Model="Bill" OnValidSubmit="UpdateBill" FormName="edit" Enhance>
                 <DataAnnotationsValidator />
-                <ValidationSummary />
-                <input type="hidden" name="Bill.BillId" value="@Bill.BillId" />
-                <div class="mb-3">
-                    <label for="storename" class="form-label">StoreName:</label>
+                <ValidationSummary class="text-danger" />
+                <div class="form-floating mb-3">
+                    <label for="storename" class="form-label" id="input-label">StoreName:</label>
                     <InputText id="storename" @bind-Value="Bill.StoreName" class="form-control" />
                     <ValidationMessage For="() => Bill.StoreName" class="text-danger" />
                 </div>
-                <div class="mb-3">
-                    <label for="billingnumber" class="form-label">BillingNumber:</label>
+                <div class="form-floating mb-3">
+                    <label for="billingnumber" class="form-label" id="input-label">BillingNumber:</label>
                     <InputText id="billingnumber" @bind-Value="Bill.BillingNumber" class="form-control" />
                     <ValidationMessage For="() => Bill.BillingNumber" class="text-danger" />
                 </div>
-                <div class="mb-3">
-                    <label for="billdate" class="form-label">BillDate:</label>
+                <div class="form-floating mb-3">
+                    <label for="billdate" class="form-label" id="input-label">BillDate:</label>
                     <InputDate id="billdate" @bind-Value="Bill.BillDate" class="form-control" />
                     <ValidationMessage For="() => Bill.BillDate" class="text-danger" />
                 </div>
-                <div class="mb-3">
-                    <label for="duedate" class="form-label">DueDate:</label>
-                    <InputDate id="duedate" @bind-Value="Bill.DueDate" class="form-control" />
-                    <ValidationMessage For="() => Bill.DueDate" class="text-danger" />
+                <div class="form-floating mb-3">
+                    <label for="netto" class="form-label" id="input-label">Netto/Income:</label>
+                    <InputNumber id="netto" @bind-Value="Bill.Netto" class="form-control" />
+                    <ValidationMessage For="() => Bill.Netto" class="text-danger" />
                 </div>
-                <div class="mb-3">
-                    <label for="status" class="form-label">Status:</label>
-                    <InputSelect id="status" @bind-Value="Bill.StatusId" class="form-control" >
-                        @foreach (var item in DB.PaymentStatus)
+                <div class="form-floating mb-3">
+                    <label for="status" class="form-label" id="input-label">Status:</label>
+                    <InputSelect id="status" @bind-Value="Bill.StatusId" class="form-control" disabled>
+                        @foreach (var stat in Statuses)
                         {
-                            <option value="@item.StatusId">@item.Name</option>
+                            <option value="@stat.StatusId">@stat.Name</option>
                         }
                     </InputSelect>
                     <ValidationMessage For="() => Bill.Status" class="text-danger" />
                 </div>
-                <div class="mb-3">
-                    <label for="category" class="form-label">Category:</label>
+                <div class="form-floating mb-3">
+                    <label for="category" class="form-label" id="input-label">Category:</label>
                     <InputSelect id="category" @bind-Value="Bill.CategoryId" class="form-control">
-                        @foreach (var item in DB.Categorie)
+                        @foreach (var cat in Categories)
                         {
-                            <option value="@item.CategorieId">@item.Name</option>
+                            <option value="@cat.CategorieId">@cat.Name</option>
                         }
                     </InputSelect>
                     <ValidationMessage For="() => Bill.Category" class="text-danger" />
                 </div>
-                <div class="mb-3">
-                    <label for="paymentmethod" class="form-label">PaymentMethod:</label>
+                <div class="form-floating mb-3">
+                    <label for="paymentmethod" class="form-label" id="input-label">PaymentMethod:</label>
                     <InputSelect id="paymentmethod" @bind-Value="Bill.PaymentMethodId" class="form-control">
-                        @foreach (var item in DB.PaymentMethod)
+                        @foreach (var meth in PaymentMethods)
                         {
-                            <option value="@item.PaymentId">@item.Name</option>
+                            <option value="@meth.PaymentId">@meth.Name</option>
                         }
                     </InputSelect>
                     <ValidationMessage For="() => Bill.PaymentMethod" class="text-danger" />
@@ -76,7 +78,99 @@ else
                 <button type="submit" class="btn btn-primary" id="main-btn">Save</button>
             </EditForm>
         </div>
-    </div>
+    }
+    else // ------------------------------------ Expenses
+    {
+        <div class="col-md-6">
+            <EditForm method="post" Model="Bill" OnValidSubmit="UpdateBill" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary class="text-danger" />
+                <div class="form-floating mb-3">
+                    <label for="storename" class="form-label" id="input-label">StoreName:</label>
+                    <InputText id="storename" @bind-Value="Bill.StoreName" class="form-control" />
+                    <ValidationMessage For="() => Bill.StoreName" class="text-danger" />
+                </div>
+                <div class="form-floating mb-3">
+                    <label for="billingnumber" class="form-label" id="input-label">BillingNumber:</label>
+                    <InputText id="billingnumber" @bind-Value="Bill.BillingNumber" class="form-control" />
+                    <ValidationMessage For="() => Bill.BillingNumber" class="text-danger" />
+                </div>
+                <div class="form-floating mb-3">
+                    <label for="billdate" class="form-label" id="input-label">BillDate:</label>
+                    <InputDate id="billdate" @bind-Value="Bill.BillDate" class="form-control" />
+                    <ValidationMessage For="() => Bill.BillDate" class="text-danger" />
+                </div>
+                <div class="form-floating mb-3">
+                    <label for="duedate" class="form-label" id="input-label">DueDate:</label>
+                    <InputDate id="duedate" @bind-Value="Bill.DueDate" class="form-control" />
+                    <ValidationMessage For="() => Bill.DueDate" class="text-danger" />
+                </div>
+                <div class="form-floating mb-3">
+                    <label for="status" class="form-label" id="input-label">Status:</label>
+                    <InputSelect id="status" @bind-Value="Bill.StatusId" class="form-control">
+                        @foreach (var stat in Statuses)
+                        {
+                            <option value="@stat.StatusId">@stat.Name</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="() => Bill.Status" class="text-danger" />
+                </div>
+                <div class="form-floating mb-3">
+                    <label for="category" class="form-label" id="input-label">Category:</label>
+                    <InputSelect id="category" @bind-Value="Bill.CategoryId" class="form-control">
+                        @foreach (var cat in Categories)
+                        {
+                            <option value="@cat.CategorieId">@cat.Name</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="() => Bill.Category" class="text-danger" />
+                </div>
+                <div class="form-floating mb-3">
+                    <label for="paymentmethod" class="form-label" id="input-label">PaymentMethod:</label>
+                    <InputSelect id="paymentmethod" @bind-Value="Bill.PaymentMethodId" class="form-control">
+                        @foreach (var meth in PaymentMethods)
+                        {
+                            <option value="@meth.PaymentId">@meth.Name</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="() => Bill.PaymentMethod" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary" id="main-btn">Save</button>
+            </EditForm>
+        </div>
+
+
+
+        <div class="col-md-5" id="addItemCon">
+            <EditForm method="post" Model="Item" OnValidSubmit="AddItem" FormName="ItemCreate" Enhance>
+                <h4 id="itemH">Items</h4>
+                <div class="form-floating mb-3">
+                    <label for="storename" class="form-label" id="input-label">ItemName:</label>
+                    <InputText id="itemname" @bind-Value="Item.Description" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label for="quantity" class="form-label" id="input-label">Quantity:</label>
+                    <InputNumber id="quantity" @bind-Value="Item.Quantity" class="form-control" min="1" />
+                </div>
+                <div class="mb-3">
+                    <label for="unitprice" class="form-label" id="input-label">UnitPrice:</label>
+                    <InputNumber id="unitprice" @bind-Value="Item.UnitPrice" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-primary" id="item-btn">AddItem</button>
+            </EditForm>
+
+            <div class="table-responsive">
+                <QuickGrid id="infos-table" Class="table" Items="ThisBillItems.AsQueryable()">
+                    <PropertyColumn Property="billitem => billitem.Description" />
+                    <PropertyColumn Property="billitem => billitem.Quantity" />
+                    <PropertyColumn Property="billitem => billitem.UnitPrice" />
+                </QuickGrid>
+
+            </div>
+        </div>
+    }
+
+</div>
 }
 
 <div>
@@ -84,19 +178,45 @@ else
 </div>
 
 @code {
+    private bool isEarningsFormVisible = false;
+
     [SupplyParameterFromQuery]
     public int BillId { get; set; }
 
     [SupplyParameterFromForm]
     public Bill? Bill { get; set; }
 
+    [SupplyParameterFromForm]
+    public BillItem Item { get; set; } = new();
+
+    public List<Categorie> Categories { get; set; } = [];
+    public List<PaymentStatus> Statuses { get; set; } = [];
+    public List<PaymentMethod> PaymentMethods { get; set; } = [];
+    public List<BillItem> ThisBillItems = new List<BillItem>();
+
     protected override async Task OnInitializedAsync()
     {
         Bill ??= await DB.Bills.FirstOrDefaultAsync(m => m.BillId == BillId);
+        Statuses = DB.PaymentStatus.ToList();
 
         if (Bill is null)
         {
             NavigationManager.NavigateTo("notfound");
+        }
+
+        ThisBillItems = DB.BillItems.Where(m => m.BillId == BillId).ToList();
+        isEarningsFormVisible = !(Bill.Netto == null);
+
+        if (isEarningsFormVisible)
+        {
+            PaymentMethods = DB.PaymentMethod.Where(x => x.IsExpensesOnly == false).ToList();
+            Categories = DB.Categorie.Where(x => x.EarningsInsteadOfExpenses == true).ToList();
+        }
+        else
+        {
+            PaymentMethods = DB.PaymentMethod.ToList();
+            Categories = DB.Categorie.Where(x => x.EarningsInsteadOfExpenses == false).ToList();
+
         }
     }
 
@@ -105,6 +225,19 @@ else
     public async Task UpdateBill()
     {
         DB.Attach(Bill!).State = EntityState.Modified;
+
+        foreach(var item in ThisBillItems)
+        {
+            item.BillId = Bill!.BillId;
+            if(item.BillItemId == 0)
+            {
+                DB.BillItems.Add(item);
+            }
+            else
+            {
+                DB.Attach(item).State = EntityState.Modified;
+            }
+        }
 
         try
         {
@@ -128,5 +261,16 @@ else
     bool BillExists(int billid)
     {
         return DB.Bills.Any(e => e.BillId == billid);
+    }
+
+    public void AddItem()
+    {
+        if (Item.Quantity <= 0 || Item.UnitPrice < 0)
+        {
+            return;
+        }
+        ThisBillItems.Add(Item);
+        Item = new();
+
     }
 }

@@ -25,7 +25,8 @@ namespace Geld_Guardian
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("GGConnection")));
+                options.UseSqlite(Configuration.GetConnectionString("GGConnection"))
+                .UseProjectables());
             services.AddDefaultIdentity<IdentityUser>(options => {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.SignIn.RequireConfirmedEmail = false;

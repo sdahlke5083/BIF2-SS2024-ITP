@@ -28,8 +28,15 @@
                 <dd class="col-sm-8">@bill.BillingNumber</dd>
                 <dt class="col-sm-4">BillDate</dt>
                 <dd class="col-sm-8">@bill.BillDate</dd>
-                <dt class="col-sm-4">DueDate</dt>
-                <dd class="col-sm-8">@bill.DueDate</dd>
+                @if (bill.Netto is not null)
+                {
+                    <dt class="col-sm-4">Netto</dt>
+                    <dd class="col-sm-8">@bill.Netto</dd>
+                }else
+                {
+                    <dt class="col-sm-4">DueDate</dt>
+                    <dd class="col-sm-8">@bill.DueDate</dd>
+                }
                 <dt class="col-sm-4">Status</dt>
                 <dd class="col-sm-8">@bill.Status.Name</dd>
                 <dt class="col-sm-4">Category</dt>
@@ -43,7 +50,8 @@
             </div>
         }
     </div>
-    <div class="col-4">
+    @if (bill.Netto is null ){ // if netto is null, then it is a expense and not an income
+    <div class="col-6">
         <h4>BillItems</h4>
         <hr />
         @if (bill.BillItems is null)
@@ -58,11 +66,17 @@
                     <PropertyColumn Property="billitem => billitem.Category.Name" />
                     <PropertyColumn Property="billitem => billitem.Quantity" />
                     <PropertyColumn Property="billitem => billitem.UnitPrice" />
+                    <TemplateColumn Context="billitem" Title="Actions">
+                        <a href="@($"billitems/edit?billitemid={billitem.BillItemId}")">Edit</a> |
+                        <a href="@($"billitems/details?billitemid={billitem.BillItemId}")">Details</a> |
+                        <a href="@($"billitems/delete?billitemid={billitem.BillItemId}")">Delete</a>
+                    </TemplateColumn>
                 </QuickGrid>
 
             </div>
         }
     </div>
+    }
 </div>
 
 

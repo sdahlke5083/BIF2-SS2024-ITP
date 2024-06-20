@@ -34,16 +34,20 @@ namespace Geld_Guardian.Data
                 new Categorie { CategorieId = 5, Name = "Health" },
                 new Categorie { CategorieId = 6, Name = "Entertainment" },
                 new Categorie { CategorieId = 7, Name = "Education" },
-                new Categorie { CategorieId = 8, Name = "Other" }
+                new Categorie { CategorieId = 8, Name = "Other" },
+                new Categorie { CategorieId = 9, Name = "Salary", EarningsInsteadOfExpenses = true },
+                new Categorie { CategorieId = 10, Name = "Investment", EarningsInsteadOfExpenses = true },
+                new Categorie { CategorieId = 11, Name = "Other Earnings", EarningsInsteadOfExpenses = true }
             );
 
             modelBuilder.Entity<PaymentMethod>().HasData(
-                new PaymentMethod { PaymentId = 1, Name = "Cash" },
+                new PaymentMethod { PaymentId = 1, Name = "Cash", IsExpensesOnly=false },
                 new PaymentMethod { PaymentId = 2, Name = "Credit Card" },
                 new PaymentMethod { PaymentId = 3, Name = "Debit Card" },
-                new PaymentMethod { PaymentId = 4, Name = "Bank Transfer" },
+                new PaymentMethod { PaymentId = 4, Name = "Bank Transfer", IsExpensesOnly=false },
                 new PaymentMethod { PaymentId = 5, Name = "PayPal" },
-                new PaymentMethod { PaymentId = 6, Name = "Other" }
+                new PaymentMethod { PaymentId = 6, Name = "Check", IsExpensesOnly = false },
+                new PaymentMethod { PaymentId = 7, Name = "Other" }
             );
 
             modelBuilder.Entity<PaymentStatus>().HasData(

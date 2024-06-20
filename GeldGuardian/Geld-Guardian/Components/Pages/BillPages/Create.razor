@@ -5,18 +5,19 @@
 @inject NavigationManager NavigationManager
 @using Geld_Guardian.Pages.Data.Models
 @using Microsoft.AspNetCore.Components.QuickGrid
+@using Geld_Guardian.Shared
 
 <PageTitle>Create</PageTitle>
 
-<h1 @onclick="ShowEarningsForm" style="cursor: pointer;">Earnings/</h1> 
-<h1 @onclick="ShowExpensesForm" style="cursor: pointer;">Expenses</h1>
+<h1> <BigSwitch TextOn="Earnings" TextOff="Expenses" @bind-IsEarnings=@isEarningsFormVisible /> </h1>
 <p>Click to switch Forms</p>
 
 
 
 <hr />
 <div class="row">
-    @if(isEarningsFormVisible){
+    @if (isEarningsFormVisible)
+    { // ------------------------------------ Earnings
         <div class="col-md-8">
             <EditForm method="post" Model="Bills" OnValidSubmit="AddBill" FormName="create" Enhance>
                 <DataAnnotationsValidator />
@@ -36,14 +37,11 @@
                     <InputDate id="billdate" @bind-Value="Bills.BillDate" class="form-control" />
                     <ValidationMessage For="() => Bills.BillDate" class="text-danger" />
                 </div>
-                <!--
                 <div class="form-floating mb-3">
                     <label for="netto" class="form-label" id="input-label">Netto/Income:</label>
-                                    <InputNumber id="netto" @bind-Value="Bills.Netto" class="form-control" />
-                                    <ValidationMessage For="() => Bills.Netto" class="text-danger" />
-                                </div>
-                -->
-                
+                    <InputNumber id="netto" @bind-Value="Bills.Netto" class="form-control" />
+                    <ValidationMessage For="() => Bills.Netto" class="text-danger" />
+                </div>
                 <div class="form-floating mb-3">
                     <label for="status" class="form-label" id="input-label">Status:</label>
                     <InputSelect id="status" @bind-Value="Bills.StatusId" class="form-control" disabled>
@@ -78,7 +76,7 @@
             </EditForm>
         </div>
     }
-    else
+    else // ------------------------------------ Expenses
     {
         <div class="col-md-6">
             <EditForm method="post" Model="Bills" OnValidSubmit="AddBill" FormName="create" Enhance>
@@ -141,25 +139,25 @@
 
 
         <div class="col-md-5" id="addItemCon">
-             <EditForm method="post" Model="Item" OnValidSubmit="AddItem" FormName="ItemCreate" Enhance>
-            <h4 id="itemH">Items</h4>
-            <div class="form-floating mb-3">
-                <label for="storename" class="form-label" id="input-label">ItemName:</label>
-                <InputText id="itemname" @bind-Value="Item.Description" class="form-control" />
-            </div>
+            <EditForm method="post" Model="Item" OnValidSubmit="AddItem" FormName="ItemCreate" Enhance>
+                <h4 id="itemH">Items</h4>
+                <div class="form-floating mb-3">
+                    <label for="storename" class="form-label" id="input-label">ItemName:</label>
+                    <InputText id="itemname" @bind-Value="Item.Description" class="form-control" />
+                </div>
                 <div class="mb-3">
                     <label for="quantity" class="form-label" id="input-label">Quantity:</label>
-                    <InputNumber id="quantity" @bind-Value="Item.Quantity" class="form-control" min="1"/>
+                    <InputNumber id="quantity" @bind-Value="Item.Quantity" class="form-control" min="1" />
                 </div>
                 <div class="mb-3">
                     <label for="unitprice" class="form-label" id="input-label">UnitPrice:</label>
-                    <InputNumber id="unitprice" @bind-Value="Item.UnitPrice" class="form-control"/>
+                    <InputNumber id="unitprice" @bind-Value="Item.UnitPrice" class="form-control" />
                 </div>
                 <button type="submit" class="btn btn-primary" id="item-btn">AddItem</button>
             </EditForm>
- 
+
             <div class="table-responsive">
-                <QuickGrid id="infos-table" Class="table" Items="ThisBillItems.AsQueryable()" >
+                <QuickGrid id="infos-table" Class="table" Items="ThisBillItems.AsQueryable()">
                     <PropertyColumn Property="billitem => billitem.Description" />
                     <PropertyColumn Property="billitem => billitem.Quantity" />
                     <PropertyColumn Property="billitem => billitem.UnitPrice" />
@@ -169,7 +167,7 @@
                         <a href="">Delete</a>
                     </TemplateColumn>
                 </QuickGrid>
-        
+
             </div>
         </div>
     }
@@ -184,36 +182,35 @@
 
 @if (showErrors)
 {
-<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; bottom: 0;">
-  <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
-    <div class="toast-header">
-      <img src="..." class="rounded mr-2" alt="...">
-      <strong class="mr-auto">Bootstrap</strong>
-      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
+    <div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; bottom: 0;">
+        <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
+            <div class="toast-header">
+                <img src="..." class="rounded mr-2" alt="...">
+                <strong class="mr-auto">Bootstrap</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                Hello, world! This is a toast message.
+            </div>
+        </div>
     </div>
-    <div class="toast-body">
-      Hello, world! This is a toast message.
-    </div>
-  </div>
-</div>
 }
 
 
 
 @code {
-    private bool isEarningsFormVisible = true;
-
-    private void ShowEarningsForm()
+    private bool isEarningsFormVisible
     {
-        isEarningsFormVisible = true;
+        get => _isEarningsFormVisible;
+        set
+        {
+            _isEarningsFormVisible = value;
+            onSwitch();
+        }
     }
-
-    private void ShowExpensesForm()
-    {
-        isEarningsFormVisible = false;
-    }
+    private bool _isEarningsFormVisible = false;
 
     [SupplyParameterFromForm]
     public Bill Bills { get; set; } = new();
@@ -229,10 +226,7 @@
 
     protected override void OnInitialized()
     {
-        Statuses = DB.PaymentStatus.ToList();
-        PaymentMethods = DB.PaymentMethod.ToList();
-        Categories = DB.Categorie.ToList();
-        Bills.BillDate = DateTime.Today;
+        onSwitch();
     }
 
     // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
@@ -242,12 +236,14 @@
         DB.Bills.Add(Bills);
         await DB.SaveChangesAsync();
         int BillId = Bills.BillId;
+        
         foreach (var item in ThisBillItems)
         {
             item.BillId = BillId;
             item.CategoryId = Bills.CategoryId;
             DB.BillItems.Add(item);
         }
+        await DB.SaveChangesAsync();
         NavigationManager.NavigateTo("/bills");
     }
 
@@ -270,5 +266,25 @@
         if (!string.IsNullOrEmpty(userid))
             return userid;//await UserDbContext.Users.FirstOrDefaultAsync(u => u.Id == userid);
         return null;
+    }
+
+    private void onSwitch()
+    {
+        Statuses = DB.PaymentStatus.ToList();
+        Bills = new();
+        Bills.BillDate = DateTime.Today;
+        if (isEarningsFormVisible)
+        {
+            Bills.StatusId = 2;
+            PaymentMethods = DB.PaymentMethod.Where(x => x.IsExpensesOnly == false).ToList();
+            Categories = DB.Categorie.Where(x => x.IsForEarnings == true).ToList();
+        }
+        else
+        {
+            Bills.StatusId = 1;
+            PaymentMethods = DB.PaymentMethod.ToList();
+            Categories = DB.Categorie.Where(x => x.IsForExpenses == true).ToList();
+
+        }
     }
 }
