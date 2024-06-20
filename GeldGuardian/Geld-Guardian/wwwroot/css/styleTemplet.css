@@ -148,7 +148,6 @@ a, .btn-link {
 
 /*Budget Overview*/
 .table-responsive {
-    max-width: 850px;
     overflow-x: auto !important;
 }
     .table-responsive thead {
@@ -182,3 +181,22 @@ a, .btn-link {
     padding: 5px;
 }
 
+/*Budget Overview navigation*/
+
+.paginator .pagination .page-link {
+    color: deeppink !important; /* Weißer Text */
+    background-color: deeppink !important; /* Blauer Hintergrund */
+    border: 1px solid #007bff !important; /* Blauer Rahmen */
+    padding: 0.5rem 0.75rem; /* Padding für die Seitenlinks */
+    border-radius: 0.25rem; /* Abgerundete Ecken */
+}
+
+    .paginator .pagination .page-link:hover {
+        background-color: deeppink !important; /* Dunkleres Blau beim Hover */
+        border-color: #0056b3 !important; /* Dunklerer blauer Rahmen beim Hover */
+    }
+
+.paginator .pagination .page-item.active .page-link {
+    background-color: deeppink !important; /* Grüner Hintergrund für aktive Seite */
+    border-color: #28a745 !important; /* Grüner Rahmen für aktive Seite */
+}

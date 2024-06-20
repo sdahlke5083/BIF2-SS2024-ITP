@@ -20,6 +20,7 @@ namespace Geld_Guardian.Pages.Data.Models
         public int CategoryId { get; set; } = 1;
         public int PaymentMethodId { get; set; } = 1;
         public decimal TotalAmount => getTotalAmount();
+        //public decimal Netto { get; set; }
 
         // Navigation property to access related BillItems
         public List<BillItem> BillItems { get; set; } = [];
