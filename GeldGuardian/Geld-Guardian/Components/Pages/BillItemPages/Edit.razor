@@ -100,7 +100,7 @@ else
             }
         }
 
-        NavigationManager.NavigateTo("/billitems");
+        NavigationManager.NavigateTo($"/bills/details?billid={BillItem.BillId}");
     }
 
     bool BillItemExists(int billitemid)

@@ -15,7 +15,7 @@
     <a href="bills/create">Create New</a>
 </p>
 <div class="row">
-    <div class="col-lg-12 col-md-8 col-sm-12">
+    <div class="col-12">
         <div class="table-responsive">
             <QuickGrid id="infos-table" Class="table" Items="@Bills" Pagination="@pagination">
                 <PropertyColumn Property="bill => bill.StoreName" />
@@ -32,9 +32,8 @@
                     <a href="@($"bills/delete?billid={bill.BillId}")">Delete</a>
                 </TemplateColumn>
             </QuickGrid>
-        <Paginator State="@pagination" />
-    
         </div>
+        <Paginator State="@pagination" />
     </div>
 </div>
 
@@ -42,13 +41,13 @@
     @if(ChartList.Count > 0 || IncomeList.Count > 0)
     {
         @if(ChartList.Count > 0){
-            <div class="col-lg-4 col-md-8 col-sm-12" >
-                <PieChart Slices="@ChartList" />
+            <div class="col-lg-4 col-md-6 col-sm-12" >
+                <PieChart Slices="@ChartList" Title="Expenses" />
             </div>
         }
         @if(ChartList.Count > 0){
-            <div class="col-lg-4 col-md-8 col-sm-12" >
-                <PieChart Slices="@IncomeList" />
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <PieChart Slices="@IncomeList" Title="Earnings" />
             </div>
         }
     } else

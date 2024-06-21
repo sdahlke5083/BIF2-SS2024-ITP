@@ -20,7 +20,7 @@ app {
 
 .main {
     flex: 1;
-    max-width: 100% !important;
+    max-width: calc(100% - 250px) !important;
 }
 
     .main .top-row {
@@ -79,6 +79,13 @@ app {
     }
 
 @media (max-width: 767.98px) {
+
+
+    .main {
+        flex: 1;
+        max-width: 100% !important;
+    }
+
     .main .top-row:not(.auth) {
         display: none;
     }
