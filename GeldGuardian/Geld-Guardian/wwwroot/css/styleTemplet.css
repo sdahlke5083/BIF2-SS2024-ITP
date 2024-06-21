@@ -200,3 +200,7 @@ a, .btn-link {
     background-color: deeppink !important; /* Grüner Hintergrund für aktive Seite */
     border-color: #28a745 !important; /* Grüner Rahmen für aktive Seite */
 }
+
+#row_label {
+    color: #590d22;
+}

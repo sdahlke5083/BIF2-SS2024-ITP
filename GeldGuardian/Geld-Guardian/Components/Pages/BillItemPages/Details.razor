@@ -18,15 +18,15 @@
     }
     else {
         <dl class="row">
-            <dt class="col-sm-2">Bill</dt>
+            <dt id="row_label" class="col-sm-2">Bill</dt>
             <dd class="col-sm-10">@billitem.Bill.BillingNumber (@billitem.Bill.StoreName)</dd>
-            <dt class="col-sm-2">Description</dt>
+            <dt id="row_label" class="col-sm-2">Description</dt>
             <dd class="col-sm-10">@billitem.Description</dd>
-            <dt class="col-sm-2">Category</dt>
+            <dt id="row_label" class="col-sm-2">Category</dt>
             <dd class="col-sm-10">@billitem.Category.Name</dd>
-            <dt class="col-sm-2">Quantity</dt>
+            <dt id="row_label" class="col-sm-2">Quantity</dt>
             <dd class="col-sm-10">@billitem.Quantity</dd>
-            <dt class="col-sm-2">UnitPrice</dt>
+            <dt id="row_label" class="col-sm-2">UnitPrice</dt>
             <dd class="col-sm-10">@billitem.UnitPrice</dd>
         </dl>
         <div>

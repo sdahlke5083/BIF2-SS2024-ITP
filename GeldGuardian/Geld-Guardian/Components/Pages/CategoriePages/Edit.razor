@@ -24,17 +24,17 @@ else
                 <ValidationSummary />
                 <input type="hidden" name="Categories.Id" value="@Categories.CategorieId" />
                 <div class="mb-3">
-                    <label for="name" class="form-label">Name:</label>
+                    <label for="name" id="input-label" class="form-label">Name:</label>
                     <InputText id="name" @bind-Value="Categories.Name" class="form-control" />
                     <ValidationMessage For="() => Categories.Name" class="text-danger" />
                 </div>
                 <div class="mb-3">
-                    <label for="description" class="form-label">Description:</label>
+                    <label for="description" id="input-label" class="form-label">Description:</label>
                     <InputText id="description" @bind-Value="Categories.Description" class="form-control" />
                     <ValidationMessage For="() => Categories.Description" class="text-danger" />
                 </div>
                 <div class="mb-3">
-                    <label for="useage" class="form-label">Useage:</label>
+                    <label for="useage" id="input-label" class="form-label">Useage: </label>
                     <InputRadioGroup id="useage" @bind-Value="Categories.EarningsInsteadOfExpenses" class="form-control">
                         <label for="use1" class="form-label">Earnings</label>
                         <InputRadio id="use1" Value="true" />
@@ -43,7 +43,7 @@ else
                     </InputRadioGroup>
                     <ValidationMessage For="() => Categories.EarningsInsteadOfExpenses" class="text-danger" />
                 </div>
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" id="main-btn" class="btn btn-primary">Save</button>
             </EditForm>
         </div>
     </div>

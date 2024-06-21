@@ -22,11 +22,11 @@
         }
         else {
             <dl class="row">
-                <dt class="col-sm-4">StoreName</dt>
+                <dt id="row_label" class="col-sm-4">StoreName</dt>
                 <dd class="col-sm-8">@bill.StoreName</dd>
-                <dt class="col-sm-4">BillingNumber</dt>
+                <dt id="row_label" class="col-sm-4">BillingNumber</dt>
                 <dd class="col-sm-8">@bill.BillingNumber</dd>
-                <dt class="col-sm-4">BillDate</dt>
+                <dt id="row_label" class="col-sm-4">BillDate</dt>
                 <dd class="col-sm-8">@bill.BillDate</dd>
                 @if (bill.Netto is not null)
                 {
@@ -37,11 +37,11 @@
                     <dt class="col-sm-4">DueDate</dt>
                     <dd class="col-sm-8">@bill.DueDate</dd>
                 }
-                <dt class="col-sm-4">Status</dt>
+                <dt id="row_label" class="col-sm-4">Status</dt>
                 <dd class="col-sm-8">@bill.Status.Name</dd>
-                <dt class="col-sm-4">Category</dt>
+                <dt id="row_label" class="col-sm-4">Category</dt>
                 <dd class="col-sm-8">@bill.Category.Name</dd>
-                <dt class="col-sm-4">PaymentMethod</dt>
+                <dt id="row_label" class="col-sm-4">PaymentMethod</dt>
                 <dd class="col-sm-8">@bill.PaymentMethod.Name</dd>
             </dl>
             <div>

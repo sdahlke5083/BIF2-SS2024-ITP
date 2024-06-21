@@ -10,15 +10,15 @@
 <h1>Details</h1>
 
 <div>
-    <h4>PaymentStatus</h4>
     <hr />
+    <h4>PaymentStatus</h4>
     @if (paymentstatus is null)
     {
         <p><em>Loading...</em></p>
     }
     else {
         <dl class="row">
-            <dt class="col-sm-2">Name</dt>
+            <dt id="row_label" class="col-sm-2">Name</dt>
             <dd class="col-sm-10">@paymentstatus.Name</dd>
         </dl>
         <div>
