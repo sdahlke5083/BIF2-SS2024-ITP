@@ -21,12 +21,14 @@
 
 <hr />
 
+<div class="table-responsive">
+    <QuickGrid Class="table" Items="DB.PaymentStatus">
+        <PropertyColumn Property="paymentstatus => paymentstatus.Name" />
 
-<QuickGrid Class="table" Items="DB.PaymentStatus">
-    <PropertyColumn Property="paymentstatus => paymentstatus.Name" />
+        <TemplateColumn Context="paymentstatus">
+            <a href="@($"paymentstatuses/edit?statusid={paymentstatus.StatusId}")">Edit</a> |
+            <a href="@($"paymentstatuses/details?statusid={paymentstatus.StatusId}")">Details</a>
+        </TemplateColumn>
+    </QuickGrid>
 
-    <TemplateColumn Context="paymentstatus">
-        <a href="@($"paymentstatuses/edit?statusid={paymentstatus.StatusId}")">Edit</a> |
-        <a href="@($"paymentstatuses/details?statusid={paymentstatus.StatusId}")">Details</a>
-    </TemplateColumn>
-</QuickGrid>
+</div>

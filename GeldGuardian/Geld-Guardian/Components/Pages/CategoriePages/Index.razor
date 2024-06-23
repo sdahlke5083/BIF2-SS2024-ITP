@@ -21,13 +21,15 @@
 
 <hr />
 
+<div class="table-responsive">
+    <QuickGrid Class="table" Items="DB.Categorie">
+        <PropertyColumn Property="categories => categories.Name" />
+        <PropertyColumn Property="categories => categories.Description" />
 
-<QuickGrid Class="table" Items="DB.Categorie">
-    <PropertyColumn Property="categories => categories.Name" />
-    <PropertyColumn Property="categories => categories.Description" />
+        <TemplateColumn Context="categories">
+            <a href="@($"categories/edit?id={categories.CategorieId}")">Edit</a> |
+            <a href="@($"categories/details?id={categories.CategorieId}")">Details</a>
+        </TemplateColumn>
+    </QuickGrid>
+</div>
 
-    <TemplateColumn Context="categories">
-        <a href="@($"categories/edit?id={categories.CategorieId}")">Edit</a> |
-        <a href="@($"categories/details?id={categories.CategorieId}")">Details</a>
-    </TemplateColumn>
-</QuickGrid>

@@ -20,13 +20,15 @@
 
 <hr />
 
+<div class="table-responsive">
+    <QuickGrid Class="table" Items="DB.PaymentMethod">
+        <PropertyColumn Property="paymentmethod => paymentmethod.Name" />
+        <PropertyColumn Property="paymentmethod => paymentmethod.Description" />
 
-<QuickGrid Class="table" Items="DB.PaymentMethod">
-    <PropertyColumn Property="paymentmethod => paymentmethod.Name" />
-    <PropertyColumn Property="paymentmethod => paymentmethod.Description" />
+        <TemplateColumn Context="paymentmethod">
+            <a href="@($"paymentmethods/edit?id={paymentmethod.PaymentId}")">Edit</a> |
+            <a href="@($"paymentmethods/details?id={paymentmethod.PaymentId}")">Details</a>
+        </TemplateColumn>
+    </QuickGrid>
+</div>
 
-    <TemplateColumn Context="paymentmethod">
-        <a href="@($"paymentmethods/edit?id={paymentmethod.PaymentId}")">Edit</a> |
-        <a href="@($"paymentmethods/details?id={paymentmethod.PaymentId}")">Details</a>
-    </TemplateColumn>
-</QuickGrid>
