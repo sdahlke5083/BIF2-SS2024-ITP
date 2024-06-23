@@ -6,11 +6,20 @@
 
 <PageTitle>Payment Method</PageTitle>
 
-<h1>Payment Method</h1>
+<div class="row">
+    <div class="col-md-11">
+        <h1>Payment Method</h1>
+        <p>
+            <a href="paymentmethods/create">Create New</a>
+        </p>
+    </div>
+    <div class="column">
+        <img src="pics/gg.png" alt="Geld-Guardian Logo" height="120">
+    </div>
+</div>
 
-<p>
-    <a href="paymentmethods/create">Create New</a>
-</p>
+<hr />
+
 
 <QuickGrid Class="table" Items="DB.PaymentMethod">
     <PropertyColumn Property="paymentmethod => paymentmethod.Name" />

@@ -6,11 +6,21 @@
 
 <PageTitle>Index</PageTitle>
 
-<h1>Status</h1>
+<div class="row">
+    <div class="col-md-11">
+        <h1>Status</h1>
+        <p>
+            <a href="paymentstatuses/create">Create New</a>
+        </p>
+    </div> 
+    <div class="column">
+       
+        <img src="pics/gg.png" alt="Geld-Guardian Logo" height="120">
+    </div>
+</div>
 
-<p>
-    <a href="paymentstatuses/create">Create New</a>
-</p>
+<hr />
+
 
 <QuickGrid Class="table" Items="DB.PaymentStatus">
     <PropertyColumn Property="paymentstatus => paymentstatus.Name" />
