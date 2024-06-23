@@ -8,9 +8,16 @@
 @using Geld_Guardian.Shared
 
 <PageTitle>Create</PageTitle>
+<div class="row">
+    <div class="col-md-11">
+        <h1> <BigSwitch TextOn="Earnings" TextOff="Expenses" @bind-IsEarnings=@isEarningsFormVisible /> </h1>
+        <p>Click to switch Forms</p>
+    </div>
+    <div class="column">
+    <img src="pics/gg.png" alt="Geld-Guardian Logo" height="120">
+    </div>
+</div>
 
-<h1> <BigSwitch TextOn="Earnings" TextOff="Expenses" @bind-IsEarnings=@isEarningsFormVisible /> </h1>
-<p>Click to switch Forms</p>
 
 
 
