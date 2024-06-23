@@ -49,7 +49,7 @@
                 <PropertyColumn Property="bill => bill.StoreName" />
                 <PropertyColumn Property="bill => bill.BillingNumber" />
                 <PropertyColumn Property="bill => bill.BillDate.Date" />
-                <PropertyColumn Property="bill => (bill.DueDate.HasValue ? bill.DueDate.Value.Date : bill.DueDate)" />
+                <PropertyColumn Property="bill => bill.DueDate" />
                 <PropertyColumn Property="bill => bill.Status" />
                 <PropertyColumn Property="bill => bill.Category" />
                 <PropertyColumn Property="bill => bill.PaymentMethod" />

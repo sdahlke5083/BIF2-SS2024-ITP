@@ -79,8 +79,21 @@
 
 @code {
     double startAngle = -(Math.PI / 2); // (12-o-clock position)
+    private List<PieChartSlice> _Slices;
     [Parameter]
-    public List<PieChartSlice> Slices { get; set; }
+    public List<PieChartSlice> Slices {
+        get
+        {
+            if (_Slices.Count() <= 0 || _Slices is null)
+            {
+                _Slices = new List<PieChartSlice>();
+                _Slices.Add(new PieChartSlice(1, 1, "No data available"));
+                _Slices[0].Color = Color.DarkGray;
+            }
+            return _Slices;
+        }
+        set { _Slices = value; }
+    }
     [Parameter]
     public string Title { get; set; }
 
@@ -111,11 +124,7 @@
 
     protected override void OnInitialized()
     {
-        if (Slices.Count <= 0)
-        {
-            Slices = new List<PieChartSlice>();
-            Slices.Add(new PieChartSlice(1, 1, "No data available"));
-        }
+      
     }
 
 
