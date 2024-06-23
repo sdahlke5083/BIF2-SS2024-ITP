@@ -1,6 +1,6 @@
 ﻿using EntityFrameworkCore.Projectables;
 
-namespace Geld_Guardian.Pages.Data.Models
+namespace Geld_Guardian.Components.Data.Models
 {
     public class BillItem
     {
@@ -11,7 +11,7 @@ namespace Geld_Guardian.Pages.Data.Models
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         [Projectable]
-        public decimal TotalPrice => (Quantity * UnitPrice); // Calculated property
+        public decimal TotalPrice => Quantity * UnitPrice; // Calculated property
 
         // Navigation property back to the Bill
         public Bill Bill { get; set; }

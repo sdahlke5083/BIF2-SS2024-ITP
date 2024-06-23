@@ -1,4 +1,4 @@
-﻿using Geld_Guardian.Pages.Data.Models;
+﻿using Geld_Guardian.Components.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +13,7 @@ namespace Geld_Guardian.Data
         public DbSet<Categorie> Categorie { get; set; }
         public DbSet<PaymentMethod> PaymentMethod { get; set; }
         public DbSet<PaymentStatus> PaymentStatus { get; set; }
+        public DbSet<BudgetPlan> BudgetPlans { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -41,10 +42,10 @@ namespace Geld_Guardian.Data
             );
 
             modelBuilder.Entity<PaymentMethod>().HasData(
-                new PaymentMethod { PaymentId = 1, Name = "Cash", IsExpensesOnly=false },
+                new PaymentMethod { PaymentId = 1, Name = "Cash", IsExpensesOnly = false },
                 new PaymentMethod { PaymentId = 2, Name = "Credit Card" },
                 new PaymentMethod { PaymentId = 3, Name = "Debit Card" },
-                new PaymentMethod { PaymentId = 4, Name = "Bank Transfer", IsExpensesOnly=false },
+                new PaymentMethod { PaymentId = 4, Name = "Bank Transfer", IsExpensesOnly = false },
                 new PaymentMethod { PaymentId = 5, Name = "PayPal" },
                 new PaymentMethod { PaymentId = 6, Name = "Check", IsExpensesOnly = false },
                 new PaymentMethod { PaymentId = 7, Name = "Other" }
@@ -109,6 +110,18 @@ namespace Geld_Guardian.Data
             modelBuilder.Entity<BillItem>()
                 .Property(bi => bi.CategoryId)
                 .HasDefaultValue(8);
+
+
+            modelBuilder.Entity<BudgetPlan>()
+                .HasOne(bp => bp.User)
+                .WithMany()
+                .HasForeignKey(bp => bp.UserId);
+
+            modelBuilder.Entity<BudgetPlan>()
+                .HasOne(bp => bp.Category)
+                .WithMany()
+                .HasForeignKey(bp => bp.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
 
 
         }
