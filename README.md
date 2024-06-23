@@ -39,19 +39,22 @@ Tools used
 
 ## Documentation
 
-Documentation will follow.
+If it is still running go to geld-guardian.at and just click around.
 
 
 ## Deployment
 
-Instructions will follow
 
 ```bash
-  sudo rm -rf
+  dotnet build 
 ```
+
+oder Publish mit Visual Studio
 
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![Homepage](docs/pictures/Homepage.png)
+![Overview](docs/pictures/Overview.png)
+![Budget](docs/pictures/Budget.png)
 
