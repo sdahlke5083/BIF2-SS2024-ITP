@@ -1,4 +1,4 @@
-﻿@page "/budgetplan/manage"
+﻿@page "/budgetplan"
 @attribute [Authorize]
 @inject Geld_Guardian.Data.ApplicationDbContext DB
 @inject AuthenticationStateProvider auth
@@ -6,11 +6,15 @@
 @inject NavigationManager NavigationManager
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using Microsoft.EntityFrameworkCore
+@using System.Globalization
 
 
 <div class="row">
     <div class="col-md-11">
-        <h1>BudegetPlanner</h1>
+        <h1>Budget Used</h1>
+        <p>
+            <a href="budgetplan/manage">Change Limits</a>
+        </p>
     </div>
     <div class="column">
         <img src="pics/gg.png" alt="Geld-Guardian Logo" height="120">
@@ -18,30 +22,51 @@
 </div>
 
 <hr />
-<p>@_Error</p>
+
+<div class="row">
+    <div class="col-md-4 col-xs-6" style="text-align:right;">
+        <p>Choose a date:</p>
+    </div>
+    <div class="col-md-4 col-xs-6 form-inline">
+        <InputSelect @bind-Value="Month" class="form-control mx-2">
+            @for (int i = 1; i <= 12; i++)
+            {
+                <option value="@i">@DateTimeFormatInfo.CurrentInfo.GetMonthName(i)</option>
+            }
+        </InputSelect>
+        <InputSelect @bind-Value="year" class="form-control">
+            @for (int i = 1990; i <= DateTime.Now.Year; i++)
+            {
+                <option value="@i">@i</option>
+            }
+        </InputSelect>
+    </div>
+</div>
+
 <div class="table-responsive">
         <QuickGrid id="planner-table" Class="table" Items="@BudgetPlans">
             <TemplateColumn>
                 <nobr><strong>@context.Category.Name</strong> @context.Category.Description </nobr>
             </TemplateColumn>
             <TemplateColumn>
-                <InputNumber class="form-control" @bind-Value="@context.Amount" />
+                    @{var percentage = getPercentage(context);}
+                    <div class="progress" style="height: 20px; min-width: 50vw">
+                <div class="progress-bar progress-bar-striped progress-bar-animated @(percentage > 100 ? "bg-danger" : percentage == 100 ? "bg-success" : "bg-pink")"
+                     role="progressbar" style="width: @percentage%">
+                            @getUsedBudget(context.CategoryId) / @context.Amount (@percentage%)
+                        </div>
+                    </div>
             </TemplateColumn>
         </QuickGrid>
-        <button id="main-btn" class="btn btn-primary" @onclick="UpdateBudegets">Save</button>
 </div>
-
-<div>
-    <a href="/budgetplan">Back to Overview</a>
-</div>
-
 
 
 @code {
     #nullable enable
     private IQueryable<BudgetPlan>? BudgetPlans;
     private string? _UserId;
-    private string _Error = "";
+    private int Month = DateTime.Now.Month;
+    private int year = DateTime.Now.Year;
 
     protected override void OnInitialized()
     {
@@ -57,14 +82,13 @@
 
         if(BudgetPlans == null || BudgetPlans.Count() <= 0)
         {
-            InitBudegetPlan();
+            InitBudgetPlan();
         }
     }
 
 
-    private void InitBudegetPlan()
+    private void InitBudgetPlan()
     {
-        //_Error = "No BudgetPlan found. Creating a new one.";
 
         foreach (var category in DB.Categorie)
         {
@@ -77,17 +101,38 @@
         DB.SaveChanges();
     }
 
-    private void UpdateBudegets()
+    private int getPercentage(BudgetPlan plan)
     {
-        try
+        var used = getUsedBudget(plan.CategoryId);
+        var total = plan.Amount;
+
+        if(total == 0)
         {
-            DB.SaveChanges();
-            _Error = "Changes saved sucessfully";
+            return 100;
         }
-        catch (Exception ex)
+        else
         {
-            _Error = "Failed to save Changes";
+            return (int)(used / total * 100);
         }
+    }
+
+    private decimal getUsedBudget(int categoryId)
+    {
+        var bills = DB.Bills
+                    .Where(b => b.UserId == _UserId)
+                    .Where(b => b.CategoryId == categoryId)
+                    .Where(b => b.BillDate.Month == Month)
+                    .Where(b => b.BillDate.Year == year)
+                    .Include(b => b.BillItems);
+
+        decimal sum = 0;
+
+        foreach (var bill in bills)
+        {
+            sum += bill.TotalAmount;
+        }
+
+        return sum;
     }
 
 

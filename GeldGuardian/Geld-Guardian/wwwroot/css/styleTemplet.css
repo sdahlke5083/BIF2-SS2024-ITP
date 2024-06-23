@@ -53,6 +53,13 @@
     z-index: 1 !important;
 }
 
+.bg-pink {
+    background-color: #d1607f !important
+}
+
+.progress {
+    background-color: transparent !important;
+}
 
 a, .btn-link {
     color: #591326 !important;
@@ -140,10 +147,6 @@ a, .btn-link {
 
 .table .col-title{
     color: #590d22;
-}
-
-.table .col{
-    background-color: deeppink;
 }
 
 /*Budget Overview*/
