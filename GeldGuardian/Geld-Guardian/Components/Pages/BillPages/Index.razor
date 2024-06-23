@@ -4,24 +4,56 @@
 @inject AuthenticationStateProvider auth
 @inject NavigationManager NavigationManager
 @using Microsoft.AspNetCore.Components.QuickGrid
-@using Geld_Guardian.Pages.Data.Models
+@using Geld_Guardian.Components.Data.Models
 @using Microsoft.EntityFrameworkCore
+@using System.Globalization
 
 <PageTitle>Index</PageTitle>
 
-<h1>BudgetOverview</h1>
+<div class="row">
+    <div class="col-md-11">
+        <h1>Transactions Overview</h1>
+        <p>
+            <a href="bills/create">Create New</a>
+        </p>
+    </div>
+    <div class="column">
+        <img src="pics/gg.png" alt="Geld-Guardian Logo" height="120">
+    </div>
+</div>
 <hr />
-<p>
-    <a href="bills/create">Create New</a>
-</p>
+
+
+
+<div class="row">
+    <div class="col-md-4 col-xs-6" style="text-align:right;">
+       <p>Choose a date:</p>
+    </div>
+    <div class="col-md-4 col-xs-6 form-inline">
+        <InputSelect @bind-Value="Month" class="form-control mx-2">
+            @for (int i = 1; i <= 12; i++)
+            {
+                <option value="@i">@DateTimeFormatInfo.CurrentInfo.GetMonthName(i)</option>
+            }
+        </InputSelect>
+        <InputSelect @bind-Value="year" class="form-control">
+            @for (int i = 1990; i <= DateTime.Now.Year; i++)
+            {
+                <option value="@i">@i</option>
+            }
+        </InputSelect>
+    </div>
+</div>
+
+
 <div class="row">
     <div class="col-12">
         <div class="table-responsive">
-            <QuickGrid id="infos-table" Class="table" Items="@Bills" Pagination="@pagination">
+            <QuickGrid id="infos-table" Class="table" Items="@FilteredBills" Pagination="@pagination">
                 <PropertyColumn Property="bill => bill.StoreName" />
                 <PropertyColumn Property="bill => bill.BillingNumber" />
-                <PropertyColumn Property="bill => bill.BillDate" />
-                <PropertyColumn Property="bill => bill.DueDate" />
+                <PropertyColumn Property="bill => bill.BillDate.Date" Format="dd.MM.yyyy" />
+                <PropertyColumn Property="bill => bill.DueDate" Format="dd.MM.yyyy" />
                 <PropertyColumn Property="bill => bill.Status" />
                 <PropertyColumn Property="bill => bill.Category" />
                 <PropertyColumn Property="bill => bill.PaymentMethod" />
@@ -37,19 +69,15 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row justify-content-center">
     @if(ChartList.Count > 0 || IncomeList.Count > 0)
     {
-        @if(ChartList.Count > 0){
-            <div class="col-lg-4 col-md-6 col-sm-12" >
-                <PieChart Slices="@ChartList" Title="Expenses" />
-            </div>
-        }
-        @if(ChartList.Count > 0){
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <PieChart Slices="@IncomeList" Title="Earnings" />
-            </div>
-        }
+        <div class="col-lg-4 col-md-6 col-sm-12" >
+            <PieChart Slices="@ChartList" Title="Expenses" />
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <PieChart Slices="@IncomeList" Title="Earnings" />
+        </div>
     } else
     {
         <div class="col-lg-6 col-md-8 col-sm-12">
@@ -60,70 +88,96 @@
 </div>
 
 @code {
+    #nullable enable
 
     PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
     IQueryable<Bill>? Bills;
-    List<PieChart.PieChartSlice> ChartList = new List<PieChart.PieChartSlice>();
-    List<PieChart.PieChartSlice> IncomeList = new List<PieChart.PieChartSlice>();
+    int Month = DateTime.Now.Month;
+    int year = DateTime.Now.Year;
+
+
+    List<PieChart.PieChartSlice> ChartList
+    {
+        get
+        {
+            List<PieChart.PieChartSlice> _ChartList = new List<PieChart.PieChartSlice>();
+            var categories = DB.Categorie.Where(c => c.IsForExpenses == true).ToList();
+            decimal sum = 0;
+            foreach (var bill in FilteredBills!.Where(fb => fb.Category.IsForExpenses == true)) // foreach because LINQ doesn't support Sum() on decimal on SQLite
+            {
+                sum += bill.TotalAmount;
+            }
+            if (sum > 0 && FilteredBills is not null)
+            {
+                foreach (var category in categories)
+                {
+                    decimal value = 0;
+                    var CategoryBills = FilteredBills.Where(b => b.CategoryId == category.CategorieId);
+                    if (CategoryBills.Count() == 0)
+                        continue;
+
+                    foreach (var bill in FilteredBills.Where(b => b.CategoryId == category.CategorieId))
+                    {
+                        value += bill.TotalAmount;
+                    }
+                    _ChartList.Add(new PieChart.PieChartSlice(value, sum, category.Name));
+                }
+            }
+            return _ChartList;
+        }    
+    }
+
+    List<PieChart.PieChartSlice> IncomeList {
+        get
+        {
+            List<PieChart.PieChartSlice> _IncomeList = new List<PieChart.PieChartSlice>();
+            var cats = DB.Categorie.Where(c => c.IsForEarnings == true).ToList();
+            decimal sumI = 0;
+            foreach (var bill in FilteredBills!.Where(fb => fb.Category.IsForEarnings == true )) // foreach because LINQ doesn't support Sum() on decimal on SQLite
+            {
+                sumI += bill.Netto ?? 0;
+            }
+            if (sumI > 0 && FilteredBills is not null)
+            {
+                foreach (var category in cats)
+                {
+                    decimal value = 0;
+                    var CategoryBills = FilteredBills.Where(b => b.CategoryId == category.CategorieId);
+                    if (CategoryBills.Count() == 0)
+                        continue;
+
+                    foreach (var bill in FilteredBills.Where(b => b.CategoryId == category.CategorieId))
+                    {
+                        value += bill.Netto ?? 0;
+                    }
+                    _IncomeList.Add(new PieChart.PieChartSlice(value, sumI, category.Name));
+                }
+            }
+            return _IncomeList;
+        }    
+    }
+
+    IQueryable<Bill>? FilteredBills
+    {
+        get { 
+            if(Bills is not null)
+                return Bills.Where(b => b.BillDate.Month == Month && b.BillDate.Year == year);
+            return Bills; 
+        }
+    }
 
 
     protected override void OnInitialized()
     {
+        // get data for table
         Bills = (DB.Bills
                     .Where(m => m.UserId == this.getUser())
                     .Include(b => b.Category)
                     .Include(b => b.Status)
                     .Include(b => b.PaymentMethod)
                     .Include(b => b.BillItems)
-        ).AsQueryable();
-
-        var categories = DB.Categorie.Where(c => c.IsForExpenses == true).ToList();
-        decimal sum = 0;
-        foreach (var bill in Bills) // foreach because LINQ doesn't support Sum() on decimal on SQLite
-        {
-            sum += bill.TotalAmount;
-        }
-        if(sum != 0)
-        {
-            foreach (var category in categories)
-            {
-                decimal value = 0;
-                var CategoryBills = Bills.Where(b => b.CategoryId == category.CategorieId);
-                if(CategoryBills.Count() == 0 )
-                    continue;
-            
-                foreach (var bill in Bills.Where(b => b.CategoryId == category.CategorieId)) {
-                    value += bill.TotalAmount;
-                }
-                ChartList.Add(new PieChart.PieChartSlice(value, sum, category.Name));
-            }
-        }
-
-        categories = DB.Categorie.Where(c => c.IsForEarnings == true).ToList();
-        sum = 0;
-        foreach (var bill in Bills) // foreach because LINQ doesn't support Sum() on decimal on SQLite
-        {
-            sum += bill.Netto ?? 0;
-        }
-        if (sum != 0)
-        {
-            foreach (var category in categories)
-            {
-                decimal value = 0;
-                var CategoryBills = Bills.Where(b => b.CategoryId == category.CategorieId);
-                if (CategoryBills.Count() == 0)
-                    continue;
-
-                foreach (var bill in Bills.Where(b => b.CategoryId == category.CategorieId))
-                {
-                    value += bill.Netto ?? 0;
-                }
-                if(sum > 0 && value > 0)
-                    IncomeList.Add(new PieChart.PieChartSlice(value, sum, category.Name));
-            }
-        }
+        ).AsQueryable();        
     }
-
 
     private string getUser()
     {
@@ -131,7 +185,7 @@
         var userid = userPrincipal.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
         if (!string.IsNullOrEmpty(userid))
             return userid;//await UserDbContext.Users.FirstOrDefaultAsync(u => u.Id == userid);
-        return null;
+        return "UNKNOWN";
     }
 
 }

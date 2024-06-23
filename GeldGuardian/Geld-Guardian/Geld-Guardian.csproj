@@ -5,10 +5,10 @@
     <RootNamespace>Geld_Guardian</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Pages\Data\Services\**" />
-    <Content Remove="Pages\Data\Services\**" />
-    <EmbeddedResource Remove="Pages\Data\Services\**" />
-    <None Remove="Pages\Data\Services\**" />
+    <Compile Remove="Components\Data\Services\**" />
+    <Content Remove="Components\Data\Services\**" />
+    <EmbeddedResource Remove="Components\Data\Services\**" />
+    <None Remove="Components\Data\Services\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Azure.AI.OpenAI" Version="1.0.0-beta.16" />
@@ -29,5 +29,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Database\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Database\Database.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

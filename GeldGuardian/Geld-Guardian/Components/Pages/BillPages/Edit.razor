@@ -1,7 +1,7 @@
 ﻿@page "/Bills/edit"
 @attribute [Authorize]
 @inject Geld_Guardian.Data.ApplicationDbContext DB
-@using Geld_Guardian.Pages.Data.Models
+@using Geld_Guardian.Components.Data.Models
 @inject NavigationManager NavigationManager
 @using Microsoft.EntityFrameworkCore
 @using Microsoft.AspNetCore.Components.QuickGrid
@@ -183,6 +183,7 @@ else
     [SupplyParameterFromQuery]
     public int BillId { get; set; }
 
+    #nullable enable
     [SupplyParameterFromForm]
     public Bill? Bill { get; set; }
 
@@ -205,7 +206,7 @@ else
         }
 
         ThisBillItems = DB.BillItems.Where(m => m.BillId == BillId).ToList();
-        isEarningsFormVisible = !(Bill.Netto == null);
+        isEarningsFormVisible = !(Bill!.Netto == null);
 
         if (isEarningsFormVisible)
         {

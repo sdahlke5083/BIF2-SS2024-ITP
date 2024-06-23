@@ -2,21 +2,33 @@
 @attribute [Authorize(Roles = "Admin")]
 @using Microsoft.AspNetCore.Components.QuickGrid
 @inject Geld_Guardian.Data.ApplicationDbContext DB
-@using Geld_Guardian.Pages.Data.Models
+@using Geld_Guardian.Components.Data.Models
 
 <PageTitle>Index</PageTitle>
 
-<h1>Status</h1>
+<div class="row">
+    <div class="col-md-11">
+        <h1>Status</h1>
+        <p>
+            <a href="paymentstatuses/create">Create New</a>
+        </p>
+    </div> 
+    <div class="column">
+       
+        <img src="pics/gg.png" alt="Geld-Guardian Logo" height="120">
+    </div>
+</div>
 
-<p>
-    <a href="paymentstatuses/create">Create New</a>
-</p>
+<hr />
 
-<QuickGrid Class="table" Items="DB.PaymentStatus">
-    <PropertyColumn Property="paymentstatus => paymentstatus.Name" />
+<div class="table-responsive">
+    <QuickGrid Class="table" Items="DB.PaymentStatus">
+        <PropertyColumn Property="paymentstatus => paymentstatus.Name" />
 
-    <TemplateColumn Context="paymentstatus">
-        <a href="@($"paymentstatuses/edit?statusid={paymentstatus.StatusId}")">Edit</a> |
-        <a href="@($"paymentstatuses/details?statusid={paymentstatus.StatusId}")">Details</a>
-    </TemplateColumn>
-</QuickGrid>
+        <TemplateColumn Context="paymentstatus">
+            <a href="@($"paymentstatuses/edit?statusid={paymentstatus.StatusId}")">Edit</a> |
+            <a href="@($"paymentstatuses/details?statusid={paymentstatus.StatusId}")">Details</a>
+        </TemplateColumn>
+    </QuickGrid>
+
+</div>

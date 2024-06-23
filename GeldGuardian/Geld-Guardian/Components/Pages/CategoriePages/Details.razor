@@ -1,7 +1,7 @@
 ﻿@page "/categories/details"
 @attribute [Authorize(Roles = "Admin")]
 @inject Geld_Guardian.Data.ApplicationDbContext DB
-@using Geld_Guardian.Pages.Data.Models
+@using Geld_Guardian.Components.Data.Models
 @inject NavigationManager NavigationManager
 @using Microsoft.EntityFrameworkCore
 
@@ -33,6 +33,7 @@
 </div>
 
 @code {
+#nullable enable
     Categorie? categories;
 
     [SupplyParameterFromQuery]

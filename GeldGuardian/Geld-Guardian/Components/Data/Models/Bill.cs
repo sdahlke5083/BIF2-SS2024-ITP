@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using EntityFrameworkCore.Projectables;
 using System.Linq;
 
-namespace Geld_Guardian.Pages.Data.Models
+namespace Geld_Guardian.Components.Data.Models
 {
     [Table("bills")]
     public class Bill

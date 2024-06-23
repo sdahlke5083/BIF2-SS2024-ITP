@@ -3,14 +3,21 @@
 @inject Geld_Guardian.Data.ApplicationDbContext DB
 @inject AuthenticationStateProvider auth
 @inject NavigationManager NavigationManager
-@using Geld_Guardian.Pages.Data.Models
+@using Geld_Guardian.Components.Data.Models
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using Geld_Guardian.Shared
 
 <PageTitle>Create</PageTitle>
+<div class="row">
+    <div class="col-md-11">
+        <h1> <BigSwitch TextOn="Earnings" TextOff="Expenses" @bind-IsEarnings=@isEarningsFormVisible /> </h1>
+        <p>Click to switch Forms</p>
+    </div>
+    <div class="column">
+    <img src="pics/gg.png" alt="Geld-Guardian Logo" height="120">
+    </div>
+</div>
 
-<h1> <BigSwitch TextOn="Earnings" TextOff="Expenses" @bind-IsEarnings=@isEarningsFormVisible /> </h1>
-<p>Click to switch Forms</p>
 
 
 

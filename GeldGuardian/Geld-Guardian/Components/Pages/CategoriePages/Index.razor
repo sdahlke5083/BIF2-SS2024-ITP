@@ -2,23 +2,33 @@
 @attribute [Authorize(Roles = "Admin")]
 @using Microsoft.AspNetCore.Components.QuickGrid
 @inject Geld_Guardian.Data.ApplicationDbContext DB
-@using Geld_Guardian.Pages.Data.Models
+@using Geld_Guardian.Components.Data.Models
 
 <PageTitle>Categories</PageTitle>
 
+<div class="row">
+    <div class="col-md-11">
+        <h1>Categories</h1>
+        <p>
+            <a href="categories/create">Create New</a>
+        </p>
+    </div> 
+    <div class="column">
+        <img src="pics/gg.png" alt="Geld-Guardian Logo" height="120">
+    </div>
+</div>
 
-<h1>Categories</h1>
+<hr />
 
-<p>
-    <a href="categories/create">Create New</a>
-</p>
+<div class="table-responsive">
+    <QuickGrid Class="table" Items="DB.Categorie">
+        <PropertyColumn Property="categories => categories.Name" />
+        <PropertyColumn Property="categories => categories.Description" />
 
-<QuickGrid Class="table" Items="DB.Categorie">
-    <PropertyColumn Property="categories => categories.Name" />
-    <PropertyColumn Property="categories => categories.Description" />
+        <TemplateColumn Context="categories">
+            <a href="@($"categories/edit?id={categories.CategorieId}")">Edit</a> |
+            <a href="@($"categories/details?id={categories.CategorieId}")">Details</a>
+        </TemplateColumn>
+    </QuickGrid>
+</div>
 
-    <TemplateColumn Context="categories">
-        <a href="@($"categories/edit?id={categories.CategorieId}")">Edit</a> |
-        <a href="@($"categories/details?id={categories.CategorieId}")">Details</a>
-    </TemplateColumn>
-</QuickGrid>

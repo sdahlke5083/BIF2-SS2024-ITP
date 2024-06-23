@@ -1,7 +1,7 @@
 ﻿@page "/BillItems/edit"
 @attribute [Authorize]
 @inject Geld_Guardian.Data.ApplicationDbContext DB
-@using Geld_Guardian.Pages.Data.Models
+@using Geld_Guardian.Components.Data.Models
 @inject NavigationManager NavigationManager
 @using Microsoft.EntityFrameworkCore
 
@@ -65,6 +65,7 @@ else
     [SupplyParameterFromQuery]
     public int BillItemId { get; set; }
 
+    #nullable enable
     [SupplyParameterFromForm]
     public BillItem? BillItem { get; set; }
 
@@ -100,7 +101,7 @@ else
             }
         }
 
-        NavigationManager.NavigateTo($"/bills/details?billid={BillItem.BillId}");
+        NavigationManager.NavigateTo($"/bills/details?billid={BillItem!.BillId}");
     }
 
     bool BillItemExists(int billitemid)
