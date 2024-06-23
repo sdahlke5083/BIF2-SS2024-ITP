@@ -1,0 +1,92 @@
+﻿@page "/budgetplan/manage"
+@attribute [Authorize]
+@inject Geld_Guardian.Data.ApplicationDbContext DB
+@inject AuthenticationStateProvider auth
+@using Geld_Guardian.Components.Data.Models
+@inject NavigationManager NavigationManager
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Microsoft.EntityFrameworkCore
+
+<h1>BudegetPlanner</h1>
+<hr />
+<div class="row">
+    <div class="col-12" >
+        <QuickGrid id="planner-table" Class="table" Items="@BudgetPlans">
+            <TemplateColumn>
+                <nobr><strong>@context.Category.Name</strong> @context.Category.Description </nobr>
+            </TemplateColumn>
+            <TemplateColumn>
+                <InputNumber @bind-Value="@context.Amount" />
+            </TemplateColumn>
+        </QuickGrid>
+        <button class="btn btn-primary" @onclick="UpdateBudegets">Save</button>
+    </div>
+</div>
+
+<p>@_Error</p>
+
+
+@code {
+    #nullable enable
+    private IQueryable<BudgetPlan>? BudgetPlans;
+    private string? _UserId;
+    private string _Error = "";
+
+    protected override void OnInitialized()
+    {
+        _UserId = getUser();
+        // only show the expenses of the current user
+        BudgetPlans = DB.BudgetPlans
+                            .Where(bp => bp.UserId == _UserId)
+                            .Include( bp => bp.User )
+                            .Include( bp => bp.Category )
+                            .Where( bp => bp.Category.EarningsInsteadOfExpenses == false)
+                            .OrderBy( bp => bp.Category.Name)
+                            .AsQueryable();
+
+        if(BudgetPlans == null || BudgetPlans.Count() <= 0)
+        {
+            InitBudegetPlan();
+        }
+    }
+
+
+    private void InitBudegetPlan()
+    {
+        _Error = "No BudgetPlan found. Creating a new one.";
+
+        foreach (var category in DB.Categorie)
+        {
+            BudgetPlan budgetPlan = new BudgetPlan();
+            budgetPlan.UserId = _UserId;
+            budgetPlan.CategoryId = category.CategorieId;
+            budgetPlan.Amount = 0;
+            DB.BudgetPlans.Add(budgetPlan);
+        }
+        DB.SaveChanges();
+    }
+
+    private void UpdateBudegets()
+    {
+        try
+        {
+            DB.SaveChanges();
+            _Error = "Changes saved sucessfully";
+        }
+        catch (Exception ex)
+        {
+            _Error = "Failed to save Changes";
+        }
+    }
+
+
+    private string getUser()
+    {
+        var userPrincipal = auth.GetAuthenticationStateAsync().Result.User;
+        var userid = userPrincipal.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+        if (!string.IsNullOrEmpty(userid))
+            return userid;//await UserDbContext.Users.FirstOrDefaultAsync(u => u.Id == userid);
+        return null;
+    }
+
+}

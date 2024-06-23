@@ -54,10 +54,20 @@
             <ul>
                 @foreach (var slice in Slices)
                 {
-                    <li>
-                        <span style="color: @(System.Drawing.ColorTranslator.ToHtml(slice.Color))">&#x25A0;</span>
-                        @slice.Label: @slice.DisplayValue (@(slice.Value.ToString("0.##"))%)
-                    </li>
+                    @if (slice.Label == "No data available")
+                    {
+                        <li>
+                            <span style="color: @(System.Drawing.ColorTranslator.ToHtml(slice.Color))">&#x25A0;</span>
+                            @slice.Label: @slice.DisplayValue
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <span style="color: @(System.Drawing.ColorTranslator.ToHtml(slice.Color))">&#x25A0;</span>
+                            @slice.Label: @slice.DisplayValue (@(slice.Value.ToString("0.##"))%)
+                        </li>     
+                    }
                 }
             </ul>
         </div>
